@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Stage, State } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
+import CircleAnimation from '../components/CircleAnimation';
 
 const DEFAULT_WORK_TIME = 0.2 * 60;
 const DEFAULT_REST_TIME = 0.1 * 60;
@@ -29,7 +30,7 @@ export default function Home() {
     const newStage =
       transitionTo ?? (currStage === Stage.WORK ? Stage.REST : Stage.WORK);
     if (currStage === Stage.WORK) {
-      setNSessions(nSessions + 1);
+      setNSessions((prevNSessions) => prevNSessions + 1);
     }
     setStage(newStage);
     setTime(stageToTime.get(newStage));
@@ -51,13 +52,13 @@ export default function Home() {
       transitionStage();
       return;
     }
-    setTime(timeLeft - 1);
+    setTime((prevTime) => prevTime - 1);
   };
 
   useEffect(() => {
     const id = setInterval(() => tick(), 1000);
     return () => clearInterval(id);
-  });
+  }, [currState, timeLeft]);
 
   const onPlay = () => {
     setEverStarted(true);
@@ -93,7 +94,9 @@ export default function Home() {
         <h1 className=" text-4xl text-purple-100">
           A simple Pomodoro timer app.
         </h1>
-        <TimerDisplay secondsLeft={timeLeft} currStage={currStage} />
+        <CircleAnimation currStage={currStage} currState={currState}>
+          <TimerDisplay secondsLeft={timeLeft} currStage={currStage} />
+        </CircleAnimation>
         <div className="flex flex-row gap-8">
           <PauseOrPlayButton
             isPlaying={isPlaying()}
