@@ -1,111 +1,92 @@
-import Head from 'next/head';
-import PillButton from '../components/PillButton';
-import 'tailwindcss/tailwind.css';
-import TimerDisplay from '../components/TimerDisplay';
-import React, { useEffect, useState } from 'react';
-import { Stage, State } from '../types/enum';
-import PauseOrPlayButton from '../components/PauseOrPlayButton';
-import StatsDisplay from '../components/StatsDisplay';
-import CircleAnimation from '../components/CircleAnimation';
+import Head from "next/head";
+import PillButton from "../components/PillButton";
+import "tailwindcss/tailwind.css";
+import React, { useEffect, useReducer, useRef, useState } from "react";
+import { Stage, State } from "../types/enum";
+import PauseOrPlayButton from "../components/PauseOrPlayButton";
+import TimerReducer from "../utils/timerReducer";
+import DefaultValues from "../utils/DefaultValues";
 
-const DEFAULT_WORK_TIME = 0.2 * 60;
-const DEFAULT_REST_TIME = 0.1 * 60;
-
-const DEFAULT_STATE = State.STOPPED;
-const DEFAULT_STAGE = Stage.WORK;
-
-const stageToTime = new Map<Stage, number>([
-  [Stage.WORK, DEFAULT_WORK_TIME],
-  [Stage.REST, DEFAULT_REST_TIME],
-]);
+import CircleAnimation from "../components/CircleAnimation";
+import TimerDisplay from "../components/TimerDisplay";
 
 export default function Home() {
-  const [currState, setState] = useState(DEFAULT_STATE);
-  const [currStage, setStage] = useState(DEFAULT_STAGE);
-  const [timeLeft, setTime] = useState(stageToTime.get(DEFAULT_STAGE));
-  const [everStarted, setEverStarted] = useState(false);
-  const [nSessions, setNSessions] = useState(0);
+  const defaultValues = DefaultValues;
 
-  const transitionStage = (transitionTo?: Stage) => {
-    const newStage =
-      transitionTo ?? (currStage === Stage.WORK ? Stage.REST : Stage.WORK);
-    if (currStage === Stage.WORK) {
-      setNSessions((prevNSessions) => prevNSessions + 1);
-    }
-    setStage(newStage);
-    setTime(stageToTime.get(newStage));
+  const stageToTime = new Map<Stage, number>([
+    [Stage.WORK, defaultValues.DEFAULT_WORK_TIME],
+    [Stage.REST, defaultValues.DEFAULT_REST_TIME],
+  ]);
+
+  const initialState = {
+    currState: defaultValues.DEFAULT_STATE,
+    currStage: defaultValues.DEFAULT_STAGE,
+    timeLeft: stageToTime.get(defaultValues.DEFAULT_STAGE),
+    nSessions: 0,
   };
 
-  const reset = () => {
-    setState(DEFAULT_STATE);
-    setTime(stageToTime.get(DEFAULT_STAGE));
-    setStage(DEFAULT_STAGE);
-    setEverStarted(false);
-    setNSessions(0);
-  };
+  const timerRef = useRef(null);
+  const reducer = TimerReducer;
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const tick = () => {
-    if (currState !== State.PLAYING) {
-      return;
-    }
-    if (timeLeft <= 0) {
-      transitionStage();
-      return;
-    }
-    setTime((prevTime) => prevTime - 1);
-  };
-
+  // Handles creating timer on play
   useEffect(() => {
-    const id = setInterval(() => tick(), 1000);
-    return () => clearInterval(id);
-  }, [currState, timeLeft]);
-
-  const onPlay = () => {
-    setEverStarted(true);
-    if (currState === State.PLAYING) {
+    if (state.currState !== State.PLAYING) {
       return;
     }
-    setState(State.PLAYING);
-  };
+    timerRef.current = setInterval(() => {
+      dispatch({ type: "tick" });
+    }, 1000);
+    return () => {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    };
+  }, [state.currState]);
 
-  const onStop = () => {
-    if (currState === State.STOPPED) {
-      return;
+  // Handles time elapsed
+  useEffect(() => {
+    if (state.timeLeft < 0) {
+      dispatch({ type: "switch" });
     }
-    reset();
-  };
+  }, [state.timeLeft]);
 
-  const onPause = () => {
-    if (currState === State.PAUSED) {
-      return;
-    }
-    setState(State.PAUSED);
-  };
-
-  const isPlaying = () => currState === State.PLAYING;
+  const isPlaying = () => state.currState === State.PLAYING;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-700">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
         <title>Pomo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="font-mono flex flex-col items-center gap-16">
-        <h1 className=" text-4xl text-purple-100">
+        <h1 className=" text-4xl text-blue-500">
           A simple Pomodoro timer app.
         </h1>
-        <CircleAnimation currStage={currStage} currState={currState}>
-          <TimerDisplay secondsLeft={timeLeft} currStage={currStage} />
+        <CircleAnimation
+          currStage={state.currStage}
+          timeLeft={state.timeLeft}
+          totalTime={
+            state.currStage === Stage.WORK
+              ? stageToTime.get(Stage.WORK)
+              : stageToTime.get(Stage.REST)
+          }
+        >
+          <TimerDisplay
+            secondsLeft={state.timeLeft}
+            currStage={state.currStage}
+          />
         </CircleAnimation>
         <div className="flex flex-row gap-8">
           <PauseOrPlayButton
             isPlaying={isPlaying()}
-            wasActiveBefore={everStarted}
-            onPlayAction={onPlay}
-            onPauseAction={onPause}
+            wasActiveBefore={false}
+            onPlayAction={() => dispatch({ type: "start" })}
+            onPauseAction={() => dispatch({ type: "pause" })}
           />
-          <PillButton text="Stop" onClickAction={onStop} />
-          <StatsDisplay sessionCompleted={nSessions} />
+          <PillButton
+            text="Stop"
+            onClickAction={() => dispatch({ type: "stop" })}
+          />
         </div>
       </main>
     </div>

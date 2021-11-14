@@ -1,16 +1,7 @@
 .circle {
-  stroke-dasharray: 1000;
+  stroke-dasharray: calc(260 * 3.14);
   stroke-linecap: round;
-  animation: stroke 1s ease-in-out infinite;
-}
-
-@keyframes stroke {
-  from {
-    stroke-dashoffset: 1000px;
-  }
-  to {
-    stroke-dashoffset: 185px;
-  }
+  transition: 1s linear;
 }
 
 .svg {
