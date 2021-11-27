@@ -1,16 +1,11 @@
 .circle {
   stroke-dasharray: 1000;
   stroke-linecap: round;
-  animation: stroke 1s ease-in-out infinite;
+  stroke-width: 8px;
 }
 
-@keyframes stroke {
-  from {
-    stroke-dashoffset: 1000px;
-  }
-  to {
-    stroke-dashoffset: 185px;
-  }
+.circle.active {
+  animation: pulse 1s infinite;
 }
 
 .svg {
@@ -19,4 +14,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+@keyframes pulse {
+  0% {
+    stroke-width: 8px;
+  }
+
+  70% {
+    stroke-width: 12px;
+  }
+
+  100% {
+    stroke-width: 8px;
+  }
 }
