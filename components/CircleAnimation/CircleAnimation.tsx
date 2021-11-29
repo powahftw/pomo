@@ -1,17 +1,8 @@
-import { useRef } from 'react';
-import { Stage, State } from '../../types/enum';
+import { Stage } from '../../types/enum';
 import css from './CircleAnimation.module.css';
 
-export default function CircleAnimation({ children, currStage, currState }) {
+export default function CircleAnimation({ children, currStage, isPlaying }) {
   const currColor = currStage === Stage.WORK ? '#7F1D1D' : '#14532D';
-
-  const curr = useRef<SVGCircleElement>();
-
-  if (currState === State.PLAYING) {
-    curr!.current!.style.animationPlayState = 'running';
-  } else {
-    curr!.current!.style.animationPlayState = 'paused';
-  }
 
   return (
     <div className="w-64 h-64 relative">
@@ -22,13 +13,11 @@ export default function CircleAnimation({ children, currStage, currState }) {
         width="100%"
       >
         <circle
-          ref={curr}
-          className={`${css.circle}`}
+          className={`${css.circle} ${isPlaying ? css.active : ''}`}
           cx="50%"
           cy="50%"
           r="50%"
           stroke={`${currColor}`}
-          strokeWidth="10"
           fillOpacity="0"
         />
       </svg>

@@ -2,6 +2,9 @@ import { Stage } from '../../types/enum';
 
 export default function TimerDisplay({ secondsLeft, currStage }) {
   const secondstoHHMMSS = (sec: number) => {
+    if (sec <= 0) {
+      return '00:00';
+    }
     const h = Math.floor(sec / (60 * 60));
     const m = Math.floor(sec / 60);
     const s = sec % 60;
@@ -22,7 +25,7 @@ export default function TimerDisplay({ secondsLeft, currStage }) {
   return (
     <div
       className={`transition-colors duration-700 
-      w-64 h-64 
+      w-64 h-64 select-none
       ${currColor} shadow-2xl border-solid border-4 border-light-blue-500  rounded-full grid place-items-center`}
     >
       <span className="text-5xl text-white font-mono">

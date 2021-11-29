@@ -3,7 +3,13 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -14,7 +20,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "operator-linebreak": [2, "after"],
+    "prettier/prettier": "error",
     "react/prop-types": 0,
     "linebreak-style": 0,
     "react/react-in-jsx-scope": "off",

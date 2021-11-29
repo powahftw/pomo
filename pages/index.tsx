@@ -2,87 +2,58 @@ import Head from 'next/head';
 import PillButton from '../components/PillButton';
 import 'tailwindcss/tailwind.css';
 import TimerDisplay from '../components/TimerDisplay';
-import React, { useEffect, useState } from 'react';
-import { Stage, State } from '../types/enum';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
+import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
 import CircleAnimation from '../components/CircleAnimation';
-
-const DEFAULT_WORK_TIME = 0.2 * 60;
-const DEFAULT_REST_TIME = 0.1 * 60;
-
-const DEFAULT_STATE = State.STOPPED;
-const DEFAULT_STAGE = Stage.WORK;
-
-const stageToTime = new Map<Stage, number>([
-  [Stage.WORK, DEFAULT_WORK_TIME],
-  [Stage.REST, DEFAULT_REST_TIME],
-]);
+import {
+  AUTOMATIC_STAGE_SWITCH,
+  DEFAULT_STATE,
+  LONG_BREAK_EVERY_N_SESSION,
+  reducer,
+  State,
+} from '../store/timer';
+import usePrevious from '../hooks/usePrevious';
+import TabButton from '../components/TabButton';
+import { didTimerRecentlyFinish } from '../utils/state_utils';
 
 export default function Home() {
-  const [currState, setState] = useState(DEFAULT_STATE);
-  const [currStage, setStage] = useState(DEFAULT_STAGE);
-  const [timeLeft, setTime] = useState(stageToTime.get(DEFAULT_STAGE));
-  const [everStarted, setEverStarted] = useState(false);
-  const [nSessions, setNSessions] = useState(0);
+  const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
+  const prevState = usePrevious(state);
+  const intervalRef = useRef(0);
 
-  const transitionStage = (transitionTo?: Stage) => {
-    const newStage =
-      transitionTo ?? (currStage === Stage.WORK ? Stage.REST : Stage.WORK);
-    if (currStage === Stage.WORK) {
-      setNSessions((prevNSessions) => prevNSessions + 1);
-    }
-    setStage(newStage);
-    setTime(stageToTime.get(newStage));
-  };
-
-  const reset = () => {
-    setState(DEFAULT_STATE);
-    setTime(stageToTime.get(DEFAULT_STAGE));
-    setStage(DEFAULT_STAGE);
-    setEverStarted(false);
-    setNSessions(0);
-  };
-
-  const tick = () => {
-    if (currState !== State.PLAYING) {
-      return;
-    }
-    if (timeLeft <= 0) {
-      transitionStage();
-      return;
-    }
-    setTime((prevTime) => prevTime - 1);
+  const transitionStage = (transitionTo: Stage) => {
+    dispatch({ type: ActionType.CHANGE_STAGE, transitionTo });
   };
 
   useEffect(() => {
-    const id = setInterval(() => tick(), 1000);
-    return () => clearInterval(id);
-  }, [currState, timeLeft]);
-
-  const onPlay = () => {
-    setEverStarted(true);
-    if (currState === State.PLAYING) {
+    if (state.timerState !== TimerState.PLAYING) {
       return;
     }
-    setState(State.PLAYING);
-  };
+    intervalRef.current = window.setInterval(
+      () => dispatch({ type: ActionType.TICK }),
+      1000
+    );
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, [state.timerState]);
 
-  const onStop = () => {
-    if (currState === State.STOPPED) {
-      return;
+  // On PLAYING -> PAUSED transition we can automatically switch the user to the following state.
+  useEffect(() => {
+    if (didTimerRecentlyFinish(prevState, state) && AUTOMATIC_STAGE_SWITCH) {
+      const breakState =
+        state.workCycleCompleted % LONG_BREAK_EVERY_N_SESSION === 0
+          ? Stage.LONG_REST
+          : Stage.SHORT_REST;
+      const transitionTo = state.stage !== Stage.WORK ? Stage.WORK : breakState;
+      transitionStage(transitionTo);
+      dispatch({ type: ActionType.PLAY });
     }
-    reset();
-  };
+  }, [state.timerState]);
 
-  const onPause = () => {
-    if (currState === State.PAUSED) {
-      return;
-    }
-    setState(State.PAUSED);
-  };
-
-  const isPlaying = () => currState === State.PLAYING;
+  const isPlaying = () => state.timerState === TimerState.PLAYING;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-700">
@@ -94,18 +65,38 @@ export default function Home() {
         <h1 className=" text-4xl text-purple-100">
           A simple Pomodoro timer app.
         </h1>
-        <CircleAnimation currStage={currStage} currState={currState}>
-          <TimerDisplay secondsLeft={timeLeft} currStage={currStage} />
+        <div className="flex flex-row rounded-full border-b-4 border-pink-900  overflow-hidden">
+          <TabButton
+            text="Work"
+            active={state.stage === Stage.WORK}
+            onClickAction={() => transitionStage(Stage.WORK)}
+          />
+          <TabButton
+            text="Short Pause"
+            active={state.stage === Stage.SHORT_REST}
+            onClickAction={() => transitionStage(Stage.SHORT_REST)}
+          />
+          <TabButton
+            text="Long Pause"
+            active={state.stage === Stage.LONG_REST}
+            onClickAction={() => transitionStage(Stage.LONG_REST)}
+          />
+        </div>
+        <CircleAnimation currStage={state.stage} isPlaying={isPlaying()}>
+          <TimerDisplay secondsLeft={state.timeLeft} currStage={state.stage} />
         </CircleAnimation>
         <div className="flex flex-row gap-8">
           <PauseOrPlayButton
             isPlaying={isPlaying()}
-            wasActiveBefore={everStarted}
-            onPlayAction={onPlay}
-            onPauseAction={onPause}
+            wasActiveBefore={state.everStarted}
+            onPlayAction={() => dispatch({ type: ActionType.PLAY })}
+            onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
           />
-          <PillButton text="Stop" onClickAction={onStop} />
-          <StatsDisplay sessionCompleted={nSessions} />
+          <PillButton
+            text="Stop"
+            onClickAction={() => dispatch({ type: ActionType.STOP })}
+          />
+          <StatsDisplay sessionCompleted={state.workCycleCompleted} />
         </div>
       </main>
     </div>
