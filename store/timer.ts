@@ -17,7 +17,7 @@ const DEFAULT_STAGE = Stage.WORK;
 export const AUTOMATIC_STAGE_SWITCH = true;
 export const LONG_BREAK_EVERY_N_SESSION = 3;
 
-const stageToTime = new Map<Stage, number>([
+export const stageToTime = new Map<Stage, number>([
   [Stage.WORK, DEFAULT_WORK_TIME],
   [Stage.SHORT_REST, DEFAULT_REST_TIME],
   [Stage.LONG_REST, DEFAULT_REST_TIME * 5],
@@ -47,17 +47,16 @@ export function reducer(state: State, action: Action) {
     case ActionType.TICK:
       if (state.timeLeft > 0) {
         return { ...state, timeLeft: state.timeLeft - 1 };
-      } else {
-        return {
-          ...state,
-          timerState: TimerState.PAUSED,
-          workCycleCompleted: state.workCycleCompleted + 1,
-        };
       }
+      return {
+        ...state,
+        timerState: TimerState.PAUSED,
+        workCycleCompleted: state.workCycleCompleted + 1,
+      };
     case ActionType.CHANGE_STAGE:
       if (action.transitionTo == null) {
         throw new Error(
-          'CHANGE_STATE Actions requires a payload with the state to transition to'
+          'CHANGE_STATE Actions requires a payload with the state to transition to',
         );
       }
       if (action.transitionTo === state.stage) {

@@ -17,18 +17,18 @@ export default function TimerDisplay({ secondsLeft, currStage }) {
     );
   };
 
-  const currColor =
-    currStage === Stage.WORK
-      ? 'bg-gradient-to-r from-red-500 via-red-700 to-red-500'
-      : 'bg-gradient-to-r from-green-500 via-green-700 to-green-500';
+  const currBgColor = currStage === Stage.WORK ? 'bg-blue-100' : 'bg-green-100';
+  const currColor = currStage === Stage.WORK ? 'text-blue-500' : 'text-green-500';
 
   return (
     <div
       className={`transition-colors duration-700 
-      w-64 h-64 select-none
-      ${currColor} shadow-2xl border-solid border-4 border-light-blue-500  rounded-full grid place-items-center`}
+      w-64 h-64 
+      ${currBgColor} shadow-2xl border-solid border-4 border-light-blue-500  rounded-full grid place-items-center`}
     >
-      <span className="text-5xl text-white font-mono">
+      <span
+        className={`transition-colors duration-700 text-5xl ${currColor} font-mono`}
+      >
         {secondstoHHMMSS(secondsLeft)}
       </span>
     </div>
