@@ -1,23 +1,27 @@
 import { Stage } from '../../types/enum';
 import css from './CircleAnimation.module.css';
 
-export default function CircleAnimation({ children, currStage, isPlaying }) {
-  const currColor = currStage === Stage.WORK ? '#7F1D1D' : '#14532D';
+const MAX_DASHOFFSET = 260 * 3.14;
+
+export default function CircleAnimation({
+  children,
+  currStage,
+  timeLeft,
+  totalTime,
+}) {
+  const progress = (timeLeft / totalTime) * MAX_DASHOFFSET;
+  const currColor = currStage === Stage.WORK ? 'text-blue-500' : 'text-green-500';
 
   return (
     <div className="w-64 h-64 relative">
-      <svg
-        viewBox="0 0 256 256"
-        className={`${css.svg}`}
-        height="100%"
-        width="100%"
-      >
+      <svg className={`${css.svg}`} height="100%" width="100%">
         <circle
-          className={`${css.circle} ${isPlaying ? css.active : ''}`}
+          strokeDashoffset={`${progress}px`}
+          className={`${css.circle} stroke-current ${currColor}`}
           cx="50%"
           cy="50%"
           r="50%"
-          stroke={`${currColor}`}
+          strokeWidth="10"
           fillOpacity="0"
         />
       </svg>

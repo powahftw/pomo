@@ -1,11 +1,7 @@
 .circle {
-  stroke-dasharray: 1000;
+  stroke-dasharray: calc(260 * 3.14);
   stroke-linecap: round;
-  stroke-width: 8px;
-}
-
-.circle.active {
-  animation: pulse 1s infinite;
+  transition: 1s linear;
 }
 
 .svg {
