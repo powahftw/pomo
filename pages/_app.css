@@ -1,0 +1,8 @@
+:root {
+    --bg-color: #ffffff;
+}
+
+body {
+    background: var(--bg-color);
+    transition: background-color 200ms linear;
+}

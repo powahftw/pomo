@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef } from 'react';
 import Head from 'next/head';
+import { StopCircle } from 'react-feather';
 import PillButton from '../components/PillButton';
 import 'tailwindcss/tailwind.css';
 import TimerDisplay from '../components/TimerDisplay';
@@ -17,6 +18,7 @@ import {
 import usePrevious from '../hooks/usePrevious';
 import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
+import Navbar from '../components/Navbar';
 
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
@@ -30,7 +32,7 @@ export default function Home() {
   // Handles creating timer on play
   useEffect(() => {
     if (state.timerState !== TimerState.PLAYING) {
-      return;
+      return undefined;
     }
     intervalRef.current = window.setInterval(
       () => dispatch({ type: ActionType.TICK }),
@@ -56,56 +58,60 @@ export default function Home() {
   const isPlaying = () => state.timerState === TimerState.PLAYING;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Pomo</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="font-mono flex flex-col items-center gap-16">
-        <h1 className=" text-4xl text-blue-500">
-          A simple Pomodoro timer app.
-        </h1>
-        <div className="flex flex-row rounded-full border-b-4 border-blue-500  overflow-hidden">
-          <TabButton
-            text="Work"
-            active={state.stage === Stage.WORK}
-            onClickAction={() => transitionStage(Stage.WORK)}
-          />
-          <TabButton
-            text="Short Pause"
-            active={state.stage === Stage.SHORT_REST}
-            onClickAction={() => transitionStage(Stage.SHORT_REST)}
-          />
-          <TabButton
-            text="Long Pause"
-            active={state.stage === Stage.LONG_REST}
-            onClickAction={() => transitionStage(Stage.LONG_REST)}
-          />
-        </div>
-        <CircleAnimation
-          currStage={state.timerState}
-          timeLeft={state.timeLeft}
-          totalTime={stageToTime.get(state.stage)}
-        >
-          <TimerDisplay
-            secondsLeft={state.timeLeft}
-            currStage={state.stage}
-          />
-        </CircleAnimation>
-        <div className="flex flex-row gap-8">
-          <PauseOrPlayButton
-            isPlaying={isPlaying()}
-            wasActiveBefore={state.everStarted}
-            onPlayAction={() => dispatch({ type: ActionType.PLAY })}
-            onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
-          />
-          <PillButton
-            text="Stop"
-            onClickAction={() => dispatch({ type: ActionType.STOP })}
-          />
-          <StatsDisplay sessionCompleted={state.workCycleCompleted} />
-        </div>
-      </main>
-    </div>
+    <>
+      <Navbar />
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <Head>
+          <title>Pomo</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main className="font-mono flex flex-col items-center gap-16">
+          <h1 className=" text-4xl text-blue-500">
+            A simple Pomodoro timer app.
+          </h1>
+          <div className="flex flex-row rounded-full border-b-4 border-blue-500  overflow-hidden">
+            <TabButton
+              text="Work"
+              active={state.stage === Stage.WORK}
+              onClickAction={() => transitionStage(Stage.WORK)}
+            />
+            <TabButton
+              text="Short Pause"
+              active={state.stage === Stage.SHORT_REST}
+              onClickAction={() => transitionStage(Stage.SHORT_REST)}
+            />
+            <TabButton
+              text="Long Pause"
+              active={state.stage === Stage.LONG_REST}
+              onClickAction={() => transitionStage(Stage.LONG_REST)}
+            />
+          </div>
+          <CircleAnimation
+            currStage={state.timerState}
+            timeLeft={state.timeLeft}
+            totalTime={stageToTime.get(state.stage)}
+          >
+            <TimerDisplay
+              secondsLeft={state.timeLeft}
+              currStage={state.stage}
+            />
+          </CircleAnimation>
+          <div className="flex flex-row gap-8">
+            <PauseOrPlayButton
+              isPlaying={isPlaying()}
+              wasActiveBefore={state.everStarted}
+              onPlayAction={() => dispatch({ type: ActionType.PLAY })}
+              onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
+            />
+            <PillButton
+              text="Stop"
+              icon={<StopCircle strokeWidth={1.5} size={24} />}
+              onClickAction={() => dispatch({ type: ActionType.STOP })}
+            />
+            <StatsDisplay sessionCompleted={state.workCycleCompleted} />
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
