@@ -1,8 +1,12 @@
-:root {
-    --bg-color: #ffffff;
+body[data-theme='light'] {
+  --bg-color: #e3f1ff;
+}
+
+body[data-theme='dark'] {
+  --bg-color: #232629;
 }
 
 body {
-    background: var(--bg-color);
-    transition: background-color 200ms linear;
+  background: var(--bg-color);
+  transition: background-color 200ms linear;
 }
