@@ -4,7 +4,7 @@ export default function TabButton({ text, active, onClickAction }) {
       onClick={onClickAction}
       type="button"
       className={`inline-block font-bold text-blue-500
-                   w-18 py-2 px-8 focus:outline-none 
+                   w-18 py-2 px-8 focus:outline-none focus:underline
                    ${
                      active
                        ? 'bg-blue-200'
