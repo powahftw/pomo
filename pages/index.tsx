@@ -66,7 +66,7 @@ export default function Home() {
         <title>Pomo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-bg-color transition ease-in-out duration-300">
         <Navbar />
         <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
