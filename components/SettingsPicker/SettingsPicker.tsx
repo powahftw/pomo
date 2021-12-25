@@ -1,5 +1,5 @@
 import { Settings } from 'react-feather';
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { usePreference } from '../../providers/preference-context';
 import { Theme } from '../../types/themes';
@@ -12,39 +12,21 @@ export default function SettingsPicker() {
     dispatch,
   } = usePreference();
 
-  const preferenceKeys = keysOf(settingsPickerPreferences);
-  const preferenceValues = Object.values(settingsPickerPreferences);
-
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  useEffect(() => {
-    const initiallyCheckedIDS = Object.entries(settingsPickerPreferences)
-      .filter(([, v]) => v)
-      .map(([k]) => k);
-    setCheckedItems(initiallyCheckedIDS);
-  }, [...preferenceValues]);
-
-  const handleCheckBoxToggle = (id) => {
-    const wasCheckboxPreviouslyChecked = checkedItems.includes(id);
-    // Add or remove the ID based on if it was previously already selected.
-    const newCheckedCheckboxes = wasCheckboxPreviouslyChecked
-      ? [...checkedItems.filter((it) => it !== id)]
-      : [...checkedItems, id];
-    const newPreferences = preferenceKeys.reduce(
-      (o, k) => ({ ...o, [k]: newCheckedCheckboxes.includes(k) }),
-      {}
-    );
-    setCheckedItems(newCheckedCheckboxes);
+  const handleCheckBoxToggle = (id: PreferenceKeys) => {
+    const wasCheckboxPreviouslyChecked = settingsPickerPreferences[id] ?? false;
     dispatch({
       type: ActionType.UPDATE_PREFERENCE,
-      newPreferences,
+      newPreferences: {
+        ...settingsPickerPreferences,
+        [id]: !wasCheckboxPreviouslyChecked,
+      },
     });
   };
 
   const SPACEBAR_KEY = ' ';
   const handleCheckBoxToggleOnSpacebar = (
     e: React.KeyboardEvent<HTMLDivElement>,
-    id: string
+    id: PreferenceKeys
   ) => {
     if (e.key === SPACEBAR_KEY) {
       handleCheckBoxToggle(id);
@@ -78,7 +60,7 @@ export default function SettingsPicker() {
                   key={value}
                   role="checkbox"
                   tabIndex={idx}
-                  aria-checked={checkedItems.includes(value)}
+                  aria-checked={settingsPickerPreferences[value] ?? false}
                   onKeyDown={(e) => handleCheckBoxToggleOnSpacebar(e, value)}
                   onClick={() => handleCheckBoxToggle(value)}
                   className="flex select-none flex-row items-center justify-between p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
@@ -88,7 +70,7 @@ export default function SettingsPicker() {
                     type="checkbox"
                     readOnly
                     tabIndex={-1}
-                    checked={checkedItems.includes(value)}
+                    checked={settingsPickerPreferences[value] ?? false}
                   />
                 </div>
               ))}
