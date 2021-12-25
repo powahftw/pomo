@@ -3,12 +3,12 @@ export default function TabButton({ text, active, onClickAction }) {
     <button
       onClick={onClickAction}
       type="button"
-      className={`inline-block font-bold text-blue-500
+      className={`inline-block font-bold text-main-color
                    w-18 py-2 px-8 focus:outline-none focus:underline
                    ${
                      active
-                       ? 'bg-blue-200'
-                       : 'bg-blue-100 focus:bg-blue-200 hover:bg-blue-200'
+                       ? 'bg-el-bg-hover-color'
+                       : 'bg-el-bg-color focus:bg-el-bg-hover-color hover:bg-el-bg-hover-color'
                    }`}
     >
       <span>{text}</span>

@@ -3,11 +3,21 @@
 @tailwind utilities;
 
 body[data-theme='light'] {
-  --bg-color: #e3f1ff;
+  --bg-color: theme('colors.sky.100');
+  --main-color: theme('colors.blue.500');
+  --main-color-accent: theme('colors.blue.600');
+  --hc-color: theme('colors.zinc.800');
+  --el-bg-color: theme('colors.blue.100');
+  --el-bg-hover-color: theme('colors.blue.200');
 }
 
 body[data-theme='dark'] {
-  --bg-color: #232629;
+  --bg-color: theme('colors.zinc.800');
+  --main-color: theme('colors.amber.600');
+  --main-color-accent: theme('colors.amber.700');
+  --hc-color: theme('colors.zinc.100');
+  --el-bg-color: theme('colors.blue.100');
+  --el-bg-hover-color: theme('colors.blue.200');
 }
 
 body {

@@ -70,10 +70,10 @@ export default function Home() {
         <Navbar />
         <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
-            <h1 className="text-4xl text-blue-500">
+            <h1 className="text-4xl text-main-color">
               A simple Pomodoro timer app.
             </h1>
-            <div className="flex flex-row rounded-full border-b-4 border-blue-500 overflow-hidden">
+            <div className="flex flex-row rounded-full border-b-4 border-main-color overflow-hidden">
               <TabButton
                 text="Work"
                 active={state.stage === Stage.WORK}

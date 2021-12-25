@@ -41,7 +41,7 @@ export default function SettingsPicker() {
   return (
     <Popover className="relative">
       <Popover.Button>
-        <Settings color={currTheme === Theme.LIGHT ? 'black' : 'white'} />
+        <Settings color="var(--hc-color)" />
       </Popover.Button>
       <Transition
         as={Fragment}
@@ -68,6 +68,7 @@ export default function SettingsPicker() {
                   <span className="ml-2">{settingsIdToLabel.get(value)}</span>
                   <input
                     type="checkbox"
+                    className="accent-main-color"
                     readOnly
                     tabIndex={-1}
                     checked={settingsPickerPreferences[value] ?? false}
