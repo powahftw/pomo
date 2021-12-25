@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body[data-theme='light'] {
   --bg-color: #e3f1ff;
 }

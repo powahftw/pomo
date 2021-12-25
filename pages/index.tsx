@@ -2,7 +2,6 @@ import { useEffect, useReducer, useRef } from 'react';
 import Head from 'next/head';
 import { StopCircle } from 'react-feather';
 import PillButton from '../components/PillButton';
-import 'tailwindcss/tailwind.css';
 import TimerDisplay from '../components/TimerDisplay';
 import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
@@ -69,7 +68,7 @@ export default function Home() {
       </Head>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <div className="flex flex-col items-center justify-center flex-grow -mt-16">
+        <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
             <h1 className="text-4xl text-blue-500">
               A simple Pomodoro timer app.

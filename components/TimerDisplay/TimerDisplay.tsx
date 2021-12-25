@@ -17,8 +17,10 @@ export default function TimerDisplay({ secondsLeft, currStage }) {
     );
   };
 
-  const currBgColor = currStage === Stage.WORK ? 'bg-blue-100' : 'bg-green-100';
-  const currColor = currStage === Stage.WORK ? 'text-blue-500' : 'text-green-500';
+  const currBgColor =
+    currStage === Stage.WORK ? 'bg-blue-100' : 'bg-emerald-100';
+  const currColor =
+    currStage === Stage.WORK ? 'text-blue-500' : 'text-emerald-500';
 
   return (
     <div
