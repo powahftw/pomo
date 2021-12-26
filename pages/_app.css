@@ -16,8 +16,8 @@ body[data-theme='dark'] {
   --main-color: theme('colors.amber.600');
   --main-color-accent: theme('colors.amber.700');
   --hc-color: theme('colors.zinc.100');
-  --el-bg-color: theme('colors.blue.100');
-  --el-bg-hover-color: theme('colors.blue.200');
+  --el-bg-color: theme('colors.orange.100');
+  --el-bg-hover-color: theme('colors.orange.200');
 }
 
 /* JWC CSS Reset. */

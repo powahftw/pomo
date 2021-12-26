@@ -93,7 +93,7 @@ export default function Home() {
               )}
             </div>
             <CircleAnimation
-              currStage={state.timerState}
+              currStage={state.stage}
               timeLeft={state.timeLeft}
               totalTime={stageToTime.get(state.stage)}
             >
@@ -114,8 +114,8 @@ export default function Home() {
                 icon={<StopCircle strokeWidth={1.5} size={24} />}
                 onClickAction={() => dispatchTimer({ type: ActionType.STOP })}
               />
-              <StatsDisplay sessionCompleted={state.workCycleCompleted} />
             </div>
+            <StatsDisplay sessionCompleted={state.workCycleCompleted} />
           </main>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function CircleAnimation({
 }) {
   const progress = (timeLeft / totalTime) * MAX_DASHOFFSET;
   const currColor =
-    currStage === Stage.WORK ? 'text-blue-500' : 'text-emerald-500';
+    currStage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
   return (
     <div className="w-64 h-64 relative">
