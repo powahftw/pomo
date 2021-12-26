@@ -1,5 +1,5 @@
 import { Settings } from 'react-feather';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { usePreference } from '../../providers/preference-context';
 import { Theme } from '../../types/themes';
@@ -11,6 +11,13 @@ export default function SettingsPicker() {
     state: { 'color-theme': currTheme, ...settingsPickerPreferences },
     dispatch,
   } = usePreference();
+  const enableNotification = settingsPickerPreferences['browser-notifications'];
+
+  useEffect(() => {
+    if (enableNotification && Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+  }, [enableNotification]);
 
   const handleCheckBoxToggle = (id: PreferenceKeys) => {
     const wasCheckboxPreviouslyChecked = settingsPickerPreferences[id] ?? false;
@@ -36,6 +43,7 @@ export default function SettingsPicker() {
   const settingsIdToLabel = new Map<PreferenceKeys, string>([
     ['auto-switch', 'Auto Switch'],
     ['enable-sounds', 'Enable Sounds'],
+    ['browser-notifications', 'Browser Notification'],
   ]);
 
   return (

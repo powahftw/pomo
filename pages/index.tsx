@@ -18,6 +18,7 @@ import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
 import Navbar from '../components/Navbar';
 import { usePreference } from '../providers/preference-context';
+import WebNotification from '../components/WebNotification';
 
 export default function Home() {
   const [state, dispatchTimer] = useReducer(reducer, DEFAULT_STATE);
@@ -113,6 +114,7 @@ export default function Home() {
               />
             </div>
             <StatsDisplay sessionCompleted={state.workCycleCompleted} />
+            <WebNotification state={state} />
           </main>
         </div>
       </div>

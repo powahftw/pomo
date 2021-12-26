@@ -51,12 +51,13 @@ export function reducer(state: State, action: Action) {
       return {
         ...state,
         timerState: TimerState.PAUSED,
-        workCycleCompleted: state.workCycleCompleted + 1,
+        workCycleCompleted:
+          state.workCycleCompleted + (state.stage === Stage.WORK ? 1 : 0),
       };
     case ActionType.CHANGE_STAGE:
       if (action.transitionTo == null) {
         throw new Error(
-          'CHANGE_STATE Actions requires a payload with the state to transition to',
+          'CHANGE_STATE Actions requires a payload with the state to transition to'
         );
       }
       if (action.transitionTo === state.stage) {

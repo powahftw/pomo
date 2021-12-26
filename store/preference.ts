@@ -3,6 +3,7 @@ import { Theme } from '../types/themes';
 export const DEFAULT_PREFERENCE = {
   'color-theme': Theme.LIGHT,
   'auto-switch': true,
+  'browser-notifications': false,
   'enable-sounds': false,
 };
 
