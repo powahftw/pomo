@@ -97,10 +97,7 @@ export default function Home() {
               timeLeft={state.timeLeft}
               totalTime={stageToTime.get(state.stage)}
             >
-              <TimerDisplay
-                secondsLeft={state.timeLeft}
-                currStage={state.stage}
-              />
+              <TimerDisplay state={state} />
             </CircleAnimation>
             <div className="flex flex-row gap-8">
               <PauseOrPlayButton
