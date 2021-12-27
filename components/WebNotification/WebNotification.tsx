@@ -18,6 +18,7 @@ export default function WebNotification() {
     body: `Completed ${appState.workCycleCompleted} sessions.\nTime to ${
       appState.stage === Stage.WORK ? 'rest' : 'work'
     }!`,
+    silent: true,
   };
 
   useEffect(() => {
