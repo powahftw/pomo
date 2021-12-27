@@ -4,20 +4,22 @@ import { didTimerRecentlyFinish } from '../../utils/state_utils';
 import usePrevious from '../../hooks/usePrevious';
 import { useEffect } from 'react';
 import { usePreference } from '../../providers/preference-context';
+import { useAppState } from '../../providers/app-state-context';
 
-export default function TimerDisplay({ state }) {
-  const prevState = usePrevious(state);
+export default function TimerDisplay() {
+  const { appState } = useAppState();
+  const prevState = usePrevious(appState);
   const {
     state: { 'enable-sounds': enableSounds },
   } = usePreference();
 
   useEffect(() => {
-    if (enableSounds && didTimerRecentlyFinish(prevState, state)) {
+    if (enableSounds && didTimerRecentlyFinish(prevState, appState)) {
       const audio = new Audio('alarm.mp3');
       audio.volume = 0.2;
       audio.play();
     }
-  }, [state.timerState]);
+  }, [appState.timerState]);
 
   const secondstoHHMMSS = (sec: number) => {
     if (sec <= 0) {
@@ -36,9 +38,9 @@ export default function TimerDisplay({ state }) {
   };
 
   const currBgColor =
-    state.currStage === Stage.WORK ? 'bg-el-bg-color' : 'bg-emerald-100';
+    appState.stage === Stage.WORK ? 'bg-el-bg-color' : 'bg-emerald-100';
   const currColor =
-    state.currStage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
+    appState.stage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
   return (
     <div
@@ -49,7 +51,7 @@ export default function TimerDisplay({ state }) {
       <span
         className={`transition-colors duration-700 text-5xl ${currColor} font-mono`}
       >
-        {secondstoHHMMSS(state.timeLeft)}
+        {secondstoHHMMSS(appState.timeLeft)}
       </span>
     </div>
   );

@@ -1,6 +1,6 @@
 import { ActionType, Stage, TimerState } from '../types/enum';
 
-export type State = {
+export type AppState = {
   timerState: TimerState;
   stage: Stage;
   timeLeft: number;
@@ -28,7 +28,7 @@ export type Action = {
   transitionTo?: Stage;
 };
 
-export const DEFAULT_STATE = {
+export const DEFAULT_APP_STATE = {
   timerState: DEFAULT_TIMER_STATE,
   stage: DEFAULT_STAGE,
   timeLeft: stageToTime.get(DEFAULT_STAGE),
@@ -36,14 +36,14 @@ export const DEFAULT_STATE = {
   everStarted: false,
 };
 
-export function reducer(state: State, action: Action) {
+export function appStateReducer(state: AppState, action: Action) {
   switch (action.type) {
     case ActionType.PLAY:
       return { ...state, timerState: TimerState.PLAYING, everStarted: true };
     case ActionType.PAUSE:
       return { ...state, timerState: TimerState.PAUSED };
     case ActionType.STOP:
-      return DEFAULT_STATE;
+      return DEFAULT_APP_STATE;
     case ActionType.TICK:
       if (state.timeLeft > 0) {
         return { ...state, timeLeft: state.timeLeft - 1 };
