@@ -1,9 +1,9 @@
-import { State } from '../store/timer';
+import { AppState } from '../store/timer';
 import { TimerState } from '../types/enum';
 
 export const didTimerRecentlyFinish = (
-  prevState: State | undefined,
-  currState: State
+  prevState: AppState | undefined,
+  currState: AppState
 ) =>
   prevState &&
   prevState.timerState === TimerState.PLAYING &&

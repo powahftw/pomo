@@ -7,21 +7,18 @@ import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
 import CircleAnimation from '../components/CircleAnimation';
-import {
-  DEFAULT_STATE,
-  LONG_BREAK_EVERY_N_SESSION,
-  reducer,
-  stageToTime,
-} from '../store/timer';
+import { LONG_BREAK_EVERY_N_SESSION, stageToTime } from '../store/timer';
 import usePrevious from '../hooks/usePrevious';
 import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
 import Navbar from '../components/Navbar';
 import { usePreference } from '../providers/preference-context';
+import WebNotification from '../components/WebNotification';
+import { useAppState } from '../providers/app-state-context';
 
 export default function Home() {
-  const [state, dispatchTimer] = useReducer(reducer, DEFAULT_STATE);
-  const prevState = usePrevious(state);
+  const { appState, dispatch } = useAppState();
+  const prevState = usePrevious(appState);
   const intervalRef = useRef(0);
 
   const {
@@ -29,36 +26,37 @@ export default function Home() {
   } = usePreference();
 
   const transitionStage = (transitionTo: Stage) => {
-    dispatchTimer({ type: ActionType.CHANGE_STAGE, transitionTo });
+    dispatch({ type: ActionType.CHANGE_STAGE, transitionTo });
   };
 
   // Handles creating timer on play
   useEffect(() => {
-    if (state.timerState === TimerState.PLAYING) {
+    if (appState.timerState === TimerState.PLAYING) {
       intervalRef.current = window.setInterval(
-        () => dispatchTimer({ type: ActionType.TICK }),
+        () => dispatch({ type: ActionType.TICK }),
         1000
       );
     }
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [state.timerState]);
+  }, [appState.timerState]);
 
   // On PLAYING -> PAUSED transition we can automatically switch the user to the following state.
   useEffect(() => {
-    if (didTimerRecentlyFinish(prevState, state) && shouldAutoSwitch) {
+    if (didTimerRecentlyFinish(prevState, appState) && shouldAutoSwitch) {
       const breakState =
-        state.workCycleCompleted % LONG_BREAK_EVERY_N_SESSION === 0
+        appState.workCycleCompleted % LONG_BREAK_EVERY_N_SESSION === 0
           ? Stage.LONG_REST
           : Stage.SHORT_REST;
-      const transitionTo = state.stage !== Stage.WORK ? Stage.WORK : breakState;
+      const transitionTo =
+        appState.stage !== Stage.WORK ? Stage.WORK : breakState;
       transitionStage(transitionTo);
-      dispatchTimer({ type: ActionType.PLAY });
+      dispatch({ type: ActionType.PLAY });
     }
-  }, [state.timerState]);
+  }, [appState.timerState]);
 
-  const isPlaying = () => state.timerState === TimerState.PLAYING;
+  const isPlaying = () => appState.timerState === TimerState.PLAYING;
 
   return (
     <>
@@ -76,46 +74,44 @@ export default function Home() {
             <div className="flex flex-row rounded-full border-b-4 border-main-color overflow-hidden">
               <TabButton
                 text="Work"
-                active={state.stage === Stage.WORK}
+                active={appState.stage === Stage.WORK}
                 onClickAction={() => transitionStage(Stage.WORK)}
               />
               <TabButton
                 text="Short Pause"
-                active={state.stage === Stage.SHORT_REST}
+                active={appState.stage === Stage.SHORT_REST}
                 onClickAction={() => transitionStage(Stage.SHORT_REST)}
               />
               {LONG_BREAK_EVERY_N_SESSION > 0 && (
                 <TabButton
                   text="Long Pause"
-                  active={state.stage === Stage.LONG_REST}
+                  active={appState.stage === Stage.LONG_REST}
                   onClickAction={() => transitionStage(Stage.LONG_REST)}
                 />
               )}
             </div>
             <CircleAnimation
-              currStage={state.stage}
-              timeLeft={state.timeLeft}
-              totalTime={stageToTime.get(state.stage)}
+              currStage={appState.stage}
+              timeLeft={appState.timeLeft}
+              totalTime={stageToTime.get(appState.stage)}
             >
-              <TimerDisplay
-                secondsLeft={state.timeLeft}
-                currStage={state.stage}
-              />
+              <TimerDisplay />
             </CircleAnimation>
             <div className="flex flex-row gap-8">
               <PauseOrPlayButton
                 isPlaying={isPlaying()}
-                wasActiveBefore={state.everStarted}
-                onPlayAction={() => dispatchTimer({ type: ActionType.PLAY })}
-                onPauseAction={() => dispatchTimer({ type: ActionType.PAUSE })}
+                wasActiveBefore={appState.everStarted}
+                onPlayAction={() => dispatch({ type: ActionType.PLAY })}
+                onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
               />
               <PillButton
                 text="Stop"
                 icon={<StopCircle strokeWidth={1.5} size={24} />}
-                onClickAction={() => dispatchTimer({ type: ActionType.STOP })}
+                onClickAction={() => dispatch({ type: ActionType.STOP })}
               />
             </div>
-            <StatsDisplay sessionCompleted={state.workCycleCompleted} />
+            <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
+            <WebNotification />
           </main>
         </div>
       </div>
