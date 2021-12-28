@@ -2,7 +2,6 @@ import { useEffect, useReducer, useRef } from 'react';
 import Head from 'next/head';
 import { StopCircle } from 'react-feather';
 import PillButton from '../components/PillButton';
-import 'tailwindcss/tailwind.css';
 import TimerDisplay from '../components/TimerDisplay';
 import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
@@ -67,14 +66,14 @@ export default function Home() {
         <title>Pomo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-bg-color transition ease-in-out duration-300">
         <Navbar />
-        <div className="flex flex-col items-center justify-center flex-grow -mt-16">
+        <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
-            <h1 className="text-4xl text-blue-500">
+            <h1 className="text-4xl text-main-color">
               A simple Pomodoro timer app.
             </h1>
-            <div className="flex flex-row rounded-full border-b-4 border-blue-500 overflow-hidden">
+            <div className="flex flex-row rounded-full border-b-4 border-main-color overflow-hidden">
               <TabButton
                 text="Work"
                 active={state.stage === Stage.WORK}
@@ -94,7 +93,7 @@ export default function Home() {
               )}
             </div>
             <CircleAnimation
-              currStage={state.timerState}
+              currStage={state.stage}
               timeLeft={state.timeLeft}
               totalTime={stageToTime.get(state.stage)}
             >
@@ -115,8 +114,8 @@ export default function Home() {
                 icon={<StopCircle strokeWidth={1.5} size={24} />}
                 onClickAction={() => dispatchTimer({ type: ActionType.STOP })}
               />
-              <StatsDisplay sessionCompleted={state.workCycleCompleted} />
             </div>
+            <StatsDisplay sessionCompleted={state.workCycleCompleted} />
           </main>
         </div>
       </div>
