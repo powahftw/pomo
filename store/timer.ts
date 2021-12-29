@@ -44,6 +44,14 @@ export function appStateReducer(state: AppState, action: Action) {
       return { ...state, timerState: TimerState.PAUSED };
     case ActionType.STOP:
       return DEFAULT_APP_STATE;
+    case ActionType.RESTART:
+      return {
+        ...state,
+        timerState: TimerState.PLAYING,
+        timeLeft: stageToTime.get(state.stage),
+        workCycleCompleted:
+          state.workCycleCompleted + (state.stage === Stage.WORK ? 1 : 0),
+      };
     case ActionType.TICK:
       if (state.timeLeft > 0) {
         return { ...state, timeLeft: state.timeLeft - 1 };

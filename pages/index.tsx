@@ -100,9 +100,11 @@ export default function Home() {
             <div className="flex flex-row gap-8">
               <PauseOrPlayButton
                 isPlaying={isPlaying()}
+                isTimeOver={appState.timeLeft == 0}
                 wasActiveBefore={appState.everStarted}
                 onPlayAction={() => dispatch({ type: ActionType.PLAY })}
                 onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
+                onRestartAction={() => dispatch({ type: ActionType.RESTART })}
               />
               <PillButton
                 text="Stop"
