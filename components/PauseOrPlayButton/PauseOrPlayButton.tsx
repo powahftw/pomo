@@ -1,4 +1,5 @@
-import { PauseCircle, PlayCircle, RefreshCcw } from 'react-feather';
+import React from 'react';
+import { Icon, PauseCircle, PlayCircle, RefreshCcw } from 'react-feather';
 import PillButton from '../PillButton';
 
 export default function PauseOrPlayButton({
@@ -9,7 +10,7 @@ export default function PauseOrPlayButton({
   onPauseAction,
   onRestartAction,
 }) {
-  let text, IconToUse, action;
+  let text: string, IconToUse: Icon, action: () => void;
   if (isPlaying) {
     [text, IconToUse, action] = ['Pause', PauseCircle, onPauseAction];
   } else if (!isTimeOver) {
