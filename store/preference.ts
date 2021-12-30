@@ -1,7 +1,9 @@
 import { Theme } from '../types/themes';
+import { DEFAULT_STATE_TO_TIME } from './timer';
 
 export const DEFAULT_PREFERENCE = {
   'color-theme': Theme.LIGHT,
+  'timer-preference': DEFAULT_STATE_TO_TIME,
   'auto-switch': true,
   'browser-notifications': false,
   'enable-sounds': false,

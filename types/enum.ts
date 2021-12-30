@@ -5,9 +5,9 @@ export enum TimerState {
 }
 
 export enum Stage {
-  WORK,
-  SHORT_REST,
-  LONG_REST,
+  WORK = 'work',
+  SHORT_REST = 'short-rest',
+  LONG_REST = 'long-rest',
 }
 
 export enum ActionType {
@@ -16,5 +16,6 @@ export enum ActionType {
   STOP = 3,
   RESTART = 4,
   TICK = 5,
-  CHANGE_STAGE = 6,
+  CHANGE_TIMER_SETTINGS = 6,
+  CHANGE_STAGE = 7,
 }
