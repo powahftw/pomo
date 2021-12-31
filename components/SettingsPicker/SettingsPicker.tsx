@@ -4,6 +4,7 @@ import { Popover, Transition } from '@headlessui/react';
 import { usePreference } from '../../providers/preference-context';
 import { ActionType, PreferenceKeys } from '../../store/preference';
 import { keysOf } from '../../utils/object_utils';
+import CounterInput from '../CounterInput';
 
 export default function SettingsPicker() {
   const {
@@ -101,26 +102,19 @@ export default function SettingsPicker() {
                     checked={settingsPickerPreferences[value] ?? false}
                   />
                 </div>
+              ))}{' '}
+              {keysOf(timerPreference).map((key) => (
+                <div
+                  key={key}
+                  className="select-none py-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+                >
+                  <CounterInput
+                    label={timerIdsToLabel.get(key)}
+                    value={timerPreference[key]}
+                    onValChange={(val) => handleTimerUpdate(key, val)}
+                  />
+                </div>
               ))}
-              <div className="flex gap-4 items-end select-none flex-row grow basis-0 justify-between p-2 rounded-lg hover:bg-gray-100 focus:outline-none">
-                {keysOf(timerPreference).map((key) => (
-                  <div key={key}>
-                    <span className="text-sm whitespace-nowrap">
-                      {timerIdsToLabel.get(key)}
-                    </span>
-                    <input
-                      className="appearance-none w-10 m-0 text-center bg-gray-300"
-                      type="number"
-                      onChange={(e) =>
-                        handleTimerUpdate(key, parseInt(e.target.value))
-                      }
-                      value={timerPreference[key]}
-                      min={0}
-                      max={60 * 60}
-                    />
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </Popover.Panel>
