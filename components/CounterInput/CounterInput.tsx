@@ -33,7 +33,7 @@ export default function CounterInput({
         {label}
         <sub> sec</sub>
       </label>
-      <div className="flex flex-row h-8 w-32 relative mt-1">
+      <div className="flex flex-row h-8 w-32 relative">
         <PlusMinusButton
           text={'-'}
           action={() => onValChange(clampValue(value - 1))}

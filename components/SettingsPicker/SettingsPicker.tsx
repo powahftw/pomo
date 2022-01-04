@@ -93,10 +93,12 @@ export default function SettingsPicker() {
                   onClick={() => handleCheckBoxToggle(value)}
                   className="flex select-none flex-row items-center justify-between p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-main-color focus-visible:ring-opacity-50"
                 >
-                  <span className="ml-2">{settingsIdToLabel.get(value)}</span>
+                  <span className="text-gray-700 text-sm font-semibold">
+                    {settingsIdToLabel.get(value)}
+                  </span>
                   <input
                     type="checkbox"
-                    className="accent-main-color"
+                    className="accent-main-color scale-125"
                     readOnly
                     tabIndex={-1}
                     checked={settingsPickerPreferences[value] ?? false}
@@ -106,7 +108,7 @@ export default function SettingsPicker() {
               {keysOf(timerPreference).map((key) => (
                 <div
                   key={key}
-                  className="select-none py-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+                  className="select-none p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
                 >
                   <CounterInput
                     label={timerIdsToLabel.get(key)}
