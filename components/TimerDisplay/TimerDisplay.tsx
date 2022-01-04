@@ -44,7 +44,7 @@ export default function TimerDisplay() {
 
   return (
     <div
-      className={`transition-colors duration-700 
+      className={`transition-colors duration-500 
       w-64 h-64 
       ${currBgColor} shadow-2xl border-solid border-4 border-light-blue-500  rounded-full grid place-items-center`}
     >

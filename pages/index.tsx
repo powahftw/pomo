@@ -7,7 +7,7 @@ import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
 import CircleAnimation from '../components/CircleAnimation';
-import { LONG_BREAK_EVERY_N_SESSION, stageToTime } from '../store/timer';
+import { LONG_BREAK_EVERY_N_SESSION } from '../store/timer';
 import usePrevious from '../hooks/usePrevious';
 import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
@@ -22,7 +22,10 @@ export default function Home() {
   const intervalRef = useRef(0);
 
   const {
-    state: { 'auto-switch': shouldAutoSwitch },
+    state: {
+      'auto-switch': shouldAutoSwitch,
+      'timer-preference': timerPreference,
+    },
   } = usePreference();
 
   const transitionStage = (transitionTo: Stage) => {
@@ -41,6 +44,17 @@ export default function Home() {
       clearInterval(intervalRef.current);
     };
   }, [appState.timerState]);
+
+  useEffect(() => {
+    dispatch({
+      type: ActionType.CHANGE_TIMER_SETTINGS,
+      newTimerSettings: {
+        [Stage.WORK]: timerPreference['work'],
+        [Stage.LONG_REST]: timerPreference['long-rest'],
+        [Stage.SHORT_REST]: timerPreference['short-rest'],
+      },
+    });
+  }, [timerPreference]);
 
   // On PLAYING -> PAUSED transition we can automatically switch the user to the following state.
   useEffect(() => {
@@ -93,16 +107,18 @@ export default function Home() {
             <CircleAnimation
               currStage={appState.stage}
               timeLeft={appState.timeLeft}
-              totalTime={stageToTime.get(appState.stage)}
+              totalTime={appState.timerSettings[appState.stage]}
             >
               <TimerDisplay />
             </CircleAnimation>
             <div className="flex flex-row gap-8">
               <PauseOrPlayButton
                 isPlaying={isPlaying()}
+                isTimeOver={appState.timeLeft == 0}
                 wasActiveBefore={appState.everStarted}
                 onPlayAction={() => dispatch({ type: ActionType.PLAY })}
                 onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
+                onRestartAction={() => dispatch({ type: ActionType.RESTART })}
               />
               <PillButton
                 text="Stop"

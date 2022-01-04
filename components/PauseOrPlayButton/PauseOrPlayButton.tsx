@@ -1,23 +1,33 @@
-import { PauseCircle, PlayCircle } from 'react-feather';
+import React from 'react';
+import { Icon, PauseCircle, PlayCircle, RefreshCcw } from 'react-feather';
 import PillButton from '../PillButton';
 
 export default function PauseOrPlayButton({
   isPlaying,
+  isTimeOver,
   wasActiveBefore,
   onPlayAction,
   onPauseAction,
+  onRestartAction,
 }) {
-  const playingButtonText = wasActiveBefore ? 'Resume' : 'Start';
-  const textToUse = isPlaying ? 'Pause' : playingButtonText;
+  let text: string, IconToUse: Icon, action: () => void;
+  if (isPlaying) {
+    [text, IconToUse, action] = ['Pause', PauseCircle, onPauseAction];
+  } else if (!isTimeOver) {
+    [text, IconToUse, action] = [
+      wasActiveBefore ? 'Resume' : 'Start',
+      PlayCircle,
+      onPlayAction,
+    ];
+  } else {
+    [text, IconToUse, action] = ['Restart', RefreshCcw, onRestartAction];
+  }
+
   return (
     <PillButton
-      text={textToUse}
-      onClickAction={isPlaying ? onPauseAction : onPlayAction}
-      icon={
-        isPlaying
-          ? <PauseCircle strokeWidth={1.5} size={24} />
-          : <PlayCircle strokeWidth={1.5} size={24} />
-        }
+      text={text}
+      onClickAction={action}
+      icon={<IconToUse strokeWidth={1.5} size={24} />}
     />
   );
 }

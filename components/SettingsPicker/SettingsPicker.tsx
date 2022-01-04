@@ -2,15 +2,20 @@ import { Settings } from 'react-feather';
 import React, { Fragment, useEffect } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { usePreference } from '../../providers/preference-context';
-import { Theme } from '../../types/themes';
 import { ActionType, PreferenceKeys } from '../../store/preference';
 import { keysOf } from '../../utils/object_utils';
+import CounterInput from '../CounterInput';
 
 export default function SettingsPicker() {
   const {
-    state: { 'color-theme': currTheme, ...settingsPickerPreferences },
+    state: {
+      'color-theme': currTheme,
+      'timer-preference': timerPreference,
+      ...settingsPickerPreferences
+    },
     dispatch,
   } = usePreference();
+
   const enableNotification = settingsPickerPreferences['browser-notifications'];
 
   useEffect(() => {
@@ -18,6 +23,15 @@ export default function SettingsPicker() {
       Notification.requestPermission();
     }
   }, [enableNotification]);
+
+  const handleTimerUpdate = (key: string, value: Number) => {
+    dispatch({
+      type: ActionType.UPDATE_PREFERENCE,
+      newPreferences: {
+        'timer-preference': { ...timerPreference, [key]: value },
+      },
+    });
+  };
 
   const handleCheckBoxToggle = (id: PreferenceKeys) => {
     const wasCheckboxPreviouslyChecked = settingsPickerPreferences[id] ?? false;
@@ -46,6 +60,12 @@ export default function SettingsPicker() {
     ['browser-notifications', 'Browser Notification'],
   ]);
 
+  const timerIdsToLabel = new Map<string, string>([
+    ['work', 'Work'],
+    ['short-rest', 'Short Rest'],
+    ['long-rest', 'Long Rest'],
+  ]);
+
   return (
     <Popover className="relative">
       <Popover.Button>
@@ -71,7 +91,7 @@ export default function SettingsPicker() {
                   aria-checked={settingsPickerPreferences[value] ?? false}
                   onKeyDown={(e) => handleCheckBoxToggleOnSpacebar(e, value)}
                   onClick={() => handleCheckBoxToggle(value)}
-                  className="flex select-none flex-row items-center justify-between p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  className="flex select-none flex-row items-center justify-between p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-main-color focus-visible:ring-opacity-50"
                 >
                   <span className="ml-2">{settingsIdToLabel.get(value)}</span>
                   <input
@@ -80,6 +100,18 @@ export default function SettingsPicker() {
                     readOnly
                     tabIndex={-1}
                     checked={settingsPickerPreferences[value] ?? false}
+                  />
+                </div>
+              ))}{' '}
+              {keysOf(timerPreference).map((key) => (
+                <div
+                  key={key}
+                  className="select-none py-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+                >
+                  <CounterInput
+                    label={timerIdsToLabel.get(key)}
+                    value={timerPreference[key]}
+                    onValChange={(val) => handleTimerUpdate(key, val)}
                   />
                 </div>
               ))}
