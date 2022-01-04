@@ -80,7 +80,7 @@ export default function SettingsPicker() {
   return (
     <Popover className="relative">
       <Popover.Button>
-        <Settings color="var(--hc-color)" />
+        <Settings color="var(--hc-color)" size={28} />
       </Popover.Button>
       <Transition
         as={Fragment}
@@ -142,7 +142,7 @@ export default function SettingsPicker() {
                   }
                   minValue={0}
                   maxValue={10}
-                ></CounterInput>
+                />
               </div>
             </div>
           </div>

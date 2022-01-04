@@ -27,7 +27,11 @@ export default function ThemePicker() {
 
   return (
     <button type="button" onClick={changeTheme}>
-      {isCurrThemeLight ? <Moon /> : <Sun color="var(--hc-color)" />}
+      {isCurrThemeLight ? (
+        <Moon size={28} />
+      ) : (
+        <Sun color="var(--hc-color)" size={28} />
+      )}
     </button>
   );
 }
