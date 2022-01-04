@@ -7,7 +7,6 @@ import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
 import CircleAnimation from '../components/CircleAnimation';
-import { LONG_BREAK_EVERY_N_SESSION } from '../store/timer';
 import usePrevious from '../hooks/usePrevious';
 import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
@@ -24,6 +23,7 @@ export default function Home() {
   const {
     state: {
       'auto-switch': shouldAutoSwitch,
+      'long-pause-every-n-sessions': longPauseEveryNSessions,
       'timer-preference': timerPreference,
     },
   } = usePreference();
@@ -60,7 +60,7 @@ export default function Home() {
   useEffect(() => {
     if (didTimerRecentlyFinish(prevState, appState) && shouldAutoSwitch) {
       const breakState =
-        appState.workCycleCompleted % LONG_BREAK_EVERY_N_SESSION === 0
+        appState.workCycleCompleted % longPauseEveryNSessions === 0
           ? Stage.LONG_REST
           : Stage.SHORT_REST;
       const transitionTo =
@@ -96,7 +96,7 @@ export default function Home() {
                 active={appState.stage === Stage.SHORT_REST}
                 onClickAction={() => transitionStage(Stage.SHORT_REST)}
               />
-              {LONG_BREAK_EVERY_N_SESSION > 0 && (
+              {longPauseEveryNSessions > 0 && (
                 <TabButton
                   text="Long Pause"
                   active={appState.stage === Stage.LONG_REST}

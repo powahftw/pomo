@@ -15,9 +15,6 @@ const DEFAULT_REST_TIME = 0.1 * 60;
 const DEFAULT_TIMER_STATE = TimerState.STOPPED;
 const DEFAULT_STAGE = Stage.WORK;
 
-export const AUTOMATIC_STAGE_SWITCH = true;
-export const LONG_BREAK_EVERY_N_SESSION = 3;
-
 export const DEFAULT_STATE_TO_TIME = {
   [Stage.WORK]: DEFAULT_WORK_TIME,
   [Stage.SHORT_REST]: DEFAULT_REST_TIME,

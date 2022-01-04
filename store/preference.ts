@@ -7,6 +7,7 @@ export const DEFAULT_PREFERENCE = {
   'auto-switch': true,
   'browser-notifications': false,
   'enable-sounds': false,
+  'long-pause-every-n-sessions': 4,
 };
 
 export type Preference = typeof DEFAULT_PREFERENCE;

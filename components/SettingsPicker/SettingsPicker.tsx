@@ -10,6 +10,7 @@ export default function SettingsPicker() {
   const {
     state: {
       'color-theme': currTheme,
+      'long-pause-every-n-sessions': longPauseEveryNSessions,
       'timer-preference': timerPreference,
       ...settingsPickerPreferences
     },
@@ -29,6 +30,16 @@ export default function SettingsPicker() {
       type: ActionType.UPDATE_PREFERENCE,
       newPreferences: {
         'timer-preference': { ...timerPreference, [key]: value },
+      },
+    });
+  };
+
+  const handleCounterPreferenceChange = (id: PreferenceKeys, val: number) => {
+    dispatch({
+      type: ActionType.UPDATE_PREFERENCE,
+      newPreferences: {
+        ...settingsPickerPreferences,
+        [id]: val,
       },
     });
   };
@@ -108,15 +119,31 @@ export default function SettingsPicker() {
               {keysOf(timerPreference).map((key) => (
                 <div
                   key={key}
-                  className="select-none p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+                  className="select-none py-2 pl-2 rounded-lg hover:bg-gray-100 focus:outline-none"
                 >
                   <CounterInput
                     label={timerIdsToLabel.get(key)}
+                    suffix={'sec'}
                     value={timerPreference[key]}
                     onValChange={(val) => handleTimerUpdate(key, val)}
                   />
                 </div>
               ))}
+              <div className="select-none py-2 pl-2 rounded-lg hover:bg-gray-100 focus:outline-none">
+                <CounterInput
+                  label={'Long Rest'}
+                  suffix={'every #n'}
+                  value={longPauseEveryNSessions}
+                  onValChange={(val) =>
+                    handleCounterPreferenceChange(
+                      'long-pause-every-n-sessions',
+                      val
+                    )
+                  }
+                  minValue={0}
+                  maxValue={10}
+                ></CounterInput>
+              </div>
             </div>
           </div>
         </Popover.Panel>
