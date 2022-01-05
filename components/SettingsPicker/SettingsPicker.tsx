@@ -80,7 +80,10 @@ export default function SettingsPicker() {
   return (
     <Popover className="relative">
       <Popover.Button>
-        <Settings color="var(--hc-color)" size={28} />
+        <Settings
+          className="transition-colors duration-500 ease-in-out group-hover:animate-hop stroke-hc-color group-hover:stroke-hc-color-accent"
+          size={28}
+        />
       </Popover.Button>
       <Transition
         as={Fragment}

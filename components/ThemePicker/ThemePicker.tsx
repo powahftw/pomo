@@ -25,12 +25,15 @@ export default function ThemePicker() {
     });
   };
 
+  const colorClasses =
+    'transition-colors duration-500 ease-in-out stroke-hc-color group-hover:stroke-hc-color-accent group-hover:animate-hop';
+
   return (
     <button type="button" onClick={changeTheme}>
       {isCurrThemeLight ? (
-        <Moon size={28} />
+        <Moon className={colorClasses} size={28} />
       ) : (
-        <Sun color="var(--hc-color)" size={28} />
+        <Sun className={colorClasses} size={28} />
       )}
     </button>
   );
