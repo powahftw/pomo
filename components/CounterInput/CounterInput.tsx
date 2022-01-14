@@ -22,7 +22,13 @@ export default function CounterInput({
     );
   };
 
-  const clampValue = (n: number) => Math.min(Math.max(n, minValue), maxValue);
+  const clampValue = (n: number) => {
+    if (isNaN(n)) {
+      return minValue;
+    }
+    return Math.min(Math.max(n, minValue), maxValue);
+  };
+
   return (
     <div
       className={`${css.numberPicker} h-6 w-26 flex flex-row items-center justify-between`}
