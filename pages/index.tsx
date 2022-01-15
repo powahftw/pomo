@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { StopCircle } from 'react-feather';
 import PillButton from '../components/PillButton';
@@ -15,6 +15,7 @@ import { usePreference } from '../providers/preference-context';
 import WebNotification from '../components/WebNotification';
 import { useAppState } from '../providers/app-state-context';
 import TabGlider from '../components/TabGlider';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const { appState, dispatch } = useAppState();
@@ -130,10 +131,11 @@ export default function Home() {
                 onClickAction={() => dispatch({ type: ActionType.STOP })}
               />
             </div>
-            <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
             <WebNotification />
           </main>
         </div>
+        <Footer />
+        <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
       </div>
     </>
   );
