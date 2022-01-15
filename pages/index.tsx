@@ -14,6 +14,7 @@ import Navbar from '../components/Navbar';
 import { usePreference } from '../providers/preference-context';
 import WebNotification from '../components/WebNotification';
 import { useAppState } from '../providers/app-state-context';
+import TabGlider from '../components/TabGlider';
 
 export default function Home() {
   const { appState, dispatch } = useAppState();
@@ -71,6 +72,11 @@ export default function Home() {
   }, [appState.timerState]);
 
   const isPlaying = () => appState.timerState === TimerState.PLAYING;
+  const activeStageMapping = new Map<Stage, number>([
+    [Stage.WORK, 0],
+    [Stage.SHORT_REST, 1],
+    [Stage.LONG_REST, 2],
+  ]);
 
   return (
     <>
@@ -82,10 +88,7 @@ export default function Home() {
         <Navbar />
         <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
-            <h1 className="text-4xl text-main-color">
-              A simple Pomodoro timer app.
-            </h1>
-            <div className="flex flex-row rounded-full border-b-4 border-main-color overflow-hidden">
+            <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative px-2 py-4">
               <TabButton
                 text="Work"
                 active={appState.stage === Stage.WORK}
@@ -103,6 +106,7 @@ export default function Home() {
                   onClickAction={() => transitionStage(Stage.LONG_REST)}
                 />
               )}
+              <TabGlider activeTab={activeStageMapping.get(appState.stage)} />
             </div>
             <CircleAnimation
               currStage={appState.stage}

@@ -6,6 +6,9 @@ module.exports = {
   darkMode: 'media', // or 'class'
   theme: {
     extend: {
+      translate: {
+        200: '200%',
+      },
       colors: {
         'main-color': 'var(--main-color)',
         'main-color-accent': 'var(--main-color-accent)',
