@@ -16,6 +16,7 @@ import WebNotification from '../components/WebNotification';
 import { useAppState } from '../providers/app-state-context';
 import TabGlider from '../components/TabGlider';
 import Footer from '../components/Footer';
+import Tasks from '../components/Tasks';
 
 export default function Home() {
   const { appState, dispatch } = useAppState();
@@ -62,7 +63,7 @@ export default function Home() {
   useEffect(() => {
     if (didTimerRecentlyFinish(prevState, appState) && shouldAutoSwitch) {
       const breakState =
-        appState.workCycleCompleted % longPauseEveryNSessions === 0
+        appState.cycleCompleted[Stage.WORK] % longPauseEveryNSessions === 0
           ? Stage.LONG_REST
           : Stage.SHORT_REST;
       const transitionTo =
@@ -87,6 +88,7 @@ export default function Home() {
       </Head>
       <div className="min-h-screen flex flex-col bg-bg-color transition ease-in-out duration-300">
         <Navbar />
+        <Tasks />
         <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
             <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative px-2 py-4">
@@ -135,7 +137,7 @@ export default function Home() {
           </main>
         </div>
         <Footer />
-        <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
+        <StatsDisplay cycleCompleted={appState.cycleCompleted} />
       </div>
     </>
   );

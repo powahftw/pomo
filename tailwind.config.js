@@ -24,9 +24,14 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10%)' },
         },
+        slideInFromLeft: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
       },
       animation: {
         hop: 'hop 1s ease-in-out infinite',
+        slideInFromLeft: 'slideInFromLeft 0.3s ease-out both',
       },
     },
   },
