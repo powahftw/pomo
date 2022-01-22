@@ -39,8 +39,12 @@ export default function Tasks() {
   };
 
   const addTask = (content) => {
+    if (!content) {
+      // If the task is empty it probably means the user is trying to dismiss the input.
+      return true;
+    }
     const id = hashCodeFrom(content).toString();
-    if (!content || tasks.map(({ id }) => id).includes(id)) {
+    if (tasks.map(({ id }) => id).includes(id)) {
       return false;
     }
     setTasks([...tasks, { id, content, isDeleted: false }]);

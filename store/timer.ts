@@ -18,7 +18,7 @@ export const DEFAULT_COMPLETED_STAGES = {
   [Stage.LONG_REST]: 0,
 };
 
-type CompletedStageType = typeof DEFAULT_COMPLETED_STAGES;
+export type CompletedStageType = typeof DEFAULT_COMPLETED_STAGES;
 
 export type AppState = {
   timerState: TimerState;
