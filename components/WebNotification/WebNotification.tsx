@@ -15,7 +15,7 @@ export default function WebNotification() {
 
   const notificationSettings = {
     icon: 'favicon.ico',
-    body: `Completed ${appState.workCycleCompleted} sessions.\nTime to ${
+    body: `Completed ${appState.cycleCompleted.work} sessions.\nTime to ${
       appState.stage === Stage.WORK ? 'rest' : 'work'
     }!`,
     silent: true,
