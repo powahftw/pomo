@@ -8,7 +8,12 @@ import { nextActionType } from '../../utils/state_utils';
 export default function Footer() {
   const { appState, dispatch } = useAppState();
 
-  const keyHandler = ({ key }) => {
+  const keyHandler = ({ target, key }) => {
+    // Prevent keyboard shortcuts to work while the user is focusing an input element.
+    // eg: the task input field.
+    if (target.matches('input')) {
+      return;
+    }
     switch (key) {
       case '1': {
         dispatch({ type: ActionType.CHANGE_STAGE, transitionTo: Stage.WORK });
