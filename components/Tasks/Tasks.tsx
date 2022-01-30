@@ -98,7 +98,12 @@ export default function Tasks() {
           />
         </button>
         {tasks.length == 0 && !isEditing && (
-          <span className="bg-blue-200 rounded-lg inline-flex items-center px-2 py-1 ml-3">
+          <span
+            className="relative bg-blue-200 rounded-lg inline-flex items-center px-2 py-1 ml-3
+                       after:content-[''] after:absolute after:top-0 after:left-0 after:bottom-0 after:w-0 after:h-0
+                       after:-mx-[6px] after:my-auto after:border-r-[6px] after:border-b-[6px] after:border-t-[6px]
+                       after:border-transparent after:border-r-blue-200"
+          >
             {'Add Task!'}
           </span>
         )}
