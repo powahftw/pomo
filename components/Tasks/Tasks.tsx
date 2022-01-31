@@ -3,6 +3,7 @@ import { PlusCircle, Check, X } from 'react-feather';
 import usePersistedState from '../../hooks/usePersistedState';
 import { Task, tasksLSKey } from '../../types/tasks';
 import { hashCodeFrom } from '../../utils/utils';
+import css from './Tasks.module.css';
 
 export default function Tasks() {
   const [tasks, setTasks] = usePersistedState<Task[]>([], tasksLSKey);
@@ -53,7 +54,9 @@ export default function Tasks() {
   };
 
   return (
-    <div className="px-4 py-2 absolute top-0 bottom-0 left-0 flex flex-col gap-2 pt-6 z-10">
+    <div
+      className={`px-4 absolute top-0 bottom-0 left-0 flex flex-col gap-2 z-10 overflow-y-auto ${css.scrollbar}`}
+    >
       {tasks.map((task) => (
         <div
           key={task.id}

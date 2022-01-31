@@ -108,15 +108,12 @@ export default function Footer() {
 const KeyBindingRow = ({ keybindings, label }) => (
   <p>
     {keybindings.map((keybinding, idx) => (
-      <>
+      <span key={keybinding}>
         {idx > 0 && ' / '}
-        <kbd
-          key={keybinding}
-          className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.2em] shadow-inner bg-gray-100"
-        >
+        <kbd className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.2em] shadow-inner bg-gray-100">
           {keybinding}
         </kbd>
-      </>
+      </span>
     ))}
     <label className="ml-4">{label}</label>
   </p>
