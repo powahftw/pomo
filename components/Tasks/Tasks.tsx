@@ -18,7 +18,7 @@ export default function Tasks() {
   };
 
   const onEnterHandleKeyDown = (event: KeyboardEvent<any>, cb: Function) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !event.shiftKey) {
       cb();
       // Prevent the event from possibly triggering twice "cb()" due to the focus shift.
       event.preventDefault();

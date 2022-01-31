@@ -68,7 +68,7 @@ export function appStateReducer(state: AppState, action: Action) {
     case ActionType.STOP:
       return {
         ...DEFAULT_APP_STATE,
-        cycleCompleted: DEFAULT_COMPLETED_STAGES,
+        cycleCompleted: state.cycleCompleted,
         timeLeft: state.timerSettings[DEFAULT_STAGE],
         timerSettings: state.timerSettings,
       };
@@ -77,7 +77,6 @@ export function appStateReducer(state: AppState, action: Action) {
         ...state,
         timerState: TimerState.PLAYING,
         timeLeft: state.timerSettings[state.stage],
-        cycleCompleted: state.cycleCompleted,
       };
     case ActionType.TICK:
       if (state.timeLeft > 0) {

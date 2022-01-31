@@ -110,7 +110,10 @@ const KeyBindingRow = ({ keybindings, label }) => (
     {keybindings.map((keybinding, idx) => (
       <>
         {idx > 0 && ' / '}
-        <kbd className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.1em] shadow-inner bg-gray-100">
+        <kbd
+          key={keybinding}
+          className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.2em] shadow-inner bg-gray-100"
+        >
           {keybinding}
         </kbd>
       </>
