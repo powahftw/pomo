@@ -9,8 +9,9 @@
     "export": "npx next build && npx next export -o docs/ && type NUL > docs/.nojekyll && shx cp docs/index.html docs/404.html"
   },
   "dependencies": {
+    "@artsy/fresnel": "^3.2.1",
     "@headlessui/react": "^1.4.2",
-    "next": "^12.0.7",
+    "next": "^12.0.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9"

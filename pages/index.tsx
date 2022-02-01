@@ -133,10 +133,10 @@ export default function Home() {
                 onClickAction={() => dispatch({ type: ActionType.STOP })}
               />
             </div>
-            <WebNotification />
           </main>
         </div>
         <Footer />
+        <WebNotification />
         <StatsDisplay cycleCompleted={appState.cycleCompleted} />
       </div>
     </>
