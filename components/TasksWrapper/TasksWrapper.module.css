@@ -1,6 +1,5 @@
 .scrollbar {
-  margin-top: 48px;
-  margin-bottom: 128px;
+  margin: 16px 0 32px 0;
 }
 
 .scrollbar::-webkit-scrollbar {

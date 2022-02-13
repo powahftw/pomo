@@ -1,14 +1,20 @@
 import SettingsPicker from '../SettingsPicker';
+import TasksWrapper from '../TasksWrapper';
 import ThemePicker from '../ThemePicker';
 
 export default function Navbar() {
   return (
-    <div className="z-20 flex flex-row self-stretch justify-end pt-6 px-6 leading-none gap-6">
-      <div className="group">
-        <SettingsPicker />
+    <div className="z-20 flex flex-row self-stretch justify-between pt-6 px-6 leading-none">
+      <div>
+        <TasksWrapper />
       </div>
-      <div className="group">
-        <ThemePicker />
+      <div className="flex flex-row gap-6">
+        <div className="group">
+          <SettingsPicker />
+        </div>
+        <div className="group">
+          <ThemePicker />
+        </div>
       </div>
     </div>
   );

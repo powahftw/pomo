@@ -3,7 +3,6 @@ import { PlusCircle, Check, X } from 'react-feather';
 import usePersistedState from '../../hooks/usePersistedState';
 import { Task, tasksLSKey } from '../../types/tasks';
 import { hashCodeFrom } from '../../utils/utils';
-import css from './Tasks.module.css';
 
 export default function Tasks() {
   const [tasks, setTasks] = usePersistedState<Task[]>([], tasksLSKey);
@@ -54,13 +53,11 @@ export default function Tasks() {
   };
 
   return (
-    <div
-      className={`px-4 absolute top-0 bottom-0 left-0 flex flex-col gap-2 z-10 overflow-y-auto ${css.scrollbar}`}
-    >
+    <>
       {tasks.map((task) => (
         <div
           key={task.id}
-          className="bg-el-bg-hover-color w-56 px-4 py-4 flex items-center text-center justify-between shadow-lg rounded-sm"
+          className="bg-el-bg-hover-color px-4 py-4 flex items-center text-center justify-between shadow-lg rounded-sm min-w-full"
         >
           <span className="overflow-hidden text-ellipsis">{task.content}</span>
           <span className="group flex-shrink-0">
@@ -77,10 +74,10 @@ export default function Tasks() {
           </span>
         </div>
       ))}
-      <div className="py-1 flex justify-between transition-colors duration-500 ease-in-out">
+      <div className="py-1 flex justify-between transition-colors duration-500 ease-in-out min-w-full">
         {isEditing && (
           <input
-            className="will-change-transform animate-slideInFromLeft appearance-none border rounded-sm w-56 px-4 py-4  shadow-lg text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="will-change-transform animate-slideInFromLeft appearance-none border rounded-sm px-4 py-4 shadow-lg text-gray-700 leading-tight focus:outline-none grow focus:shadow-outline"
             type="text"
             autoFocus
             placeholder="Add a description"
@@ -105,12 +102,12 @@ export default function Tasks() {
             className="relative bg-blue-200 rounded-lg inline-flex items-center px-2 py-1 ml-3
                        after:content-[''] after:absolute after:top-0 after:left-0 after:bottom-0 after:w-0 after:h-0
                        after:-mx-[6px] after:my-auto after:border-r-[6px] after:border-b-[6px] after:border-t-[6px]
-                       after:border-transparent after:border-r-blue-200"
+                       after:border-transparent after:border-r-blue-200 mr-auto"
           >
             {'Add Task!'}
           </span>
         )}
       </div>
-    </div>
+    </>
   );
 }
