@@ -48,7 +48,7 @@ export default function TimerDisplay() {
   return (
     <div
       className={`transition-colors duration-500 
-      w-64 h-64 
+      lg:w-80 lg:h-80 w-64 h-64 
       ${currBgColor} shadow-2xl border-solid border-4 border-el-bg-hover-color rounded-full grid place-items-center`}
     >
       <span

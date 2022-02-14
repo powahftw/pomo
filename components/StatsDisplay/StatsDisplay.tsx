@@ -36,7 +36,8 @@ export default function StatsDisplay({
               <span
                 className={`border-solid border-2 border-el-bg-hover-color rounded-full bg-${bgColor} px-3 py-2 flex gap-2 items-center font-medium`}
               >
-                <Icon size={18} />${value}
+                <Icon size={18} />
+                {value}
               </span>
             ))}
         </div>

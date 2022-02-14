@@ -14,7 +14,7 @@ export default function CircleAnimation({
     currStage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
   return (
-    <div className="w-64 h-64 relative">
+    <div className="lg:w-80 lg:h-80 w-64 h-64 relative">
       <svg className={`${css.svg}`} height="100%" width="100%">
         <circle
           strokeDashoffset={`${progress}px`}
