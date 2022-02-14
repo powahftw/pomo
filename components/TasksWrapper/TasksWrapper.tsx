@@ -4,11 +4,12 @@ import css from './TasksWrapper.module.css';
 
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { useState } from 'react';
+import { Task, tasksLSKey } from '../../types/tasks';
+import usePersistedState from '../../hooks/usePersistedState';
 
 export default function TasksWrapper() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-
-  const renderedTasks = <Tasks />;
+  const [tasks, setTasks] = usePersistedState<Task[]>([], tasksLSKey);
 
   return (
     <>
@@ -17,7 +18,7 @@ export default function TasksWrapper() {
         <div
           className={`px-4 absolute top-0 bottom-0 left-0 flex flex-col gap-2 z-10 overflow-y-auto ${css.scrollbar} w-72`}
         >
-          {renderedTasks}
+          <Tasks tasks={tasks} setTasks={setTasks} />
         </div>
       </div>
       {/* Mobile-like UI. */}
@@ -41,7 +42,7 @@ export default function TasksWrapper() {
               </button>
             </div>
             <div className="flex items-center flex-col grow p-4 gap-2">
-              {renderedTasks}
+              <Tasks tasks={tasks} setTasks={setTasks} />
             </div>
           </DialogContent>
         </DialogOverlay>

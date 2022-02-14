@@ -1,11 +1,8 @@
 import { KeyboardEvent, useRef, useState } from 'react';
 import { PlusCircle, Check, X } from 'react-feather';
-import usePersistedState from '../../hooks/usePersistedState';
-import { Task, tasksLSKey } from '../../types/tasks';
 import { hashCodeFrom } from '../../utils/utils';
 
-export default function Tasks() {
-  const [tasks, setTasks] = usePersistedState<Task[]>([], tasksLSKey);
+export default function Tasks({ tasks, setTasks }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskText, setTaskText] = useState('');
   const buttonRef = useRef(null);
