@@ -6,7 +6,7 @@ export default function TabGlider({ activeTab }) {
   };
   return (
     <div
-      className={`absolute min-w-[180px] h-10 transition-all duration-500 top-0 bottom-0 my-auto ${translateMapping[activeTab]}`}
+      className={`absolute lg:min-w-[180px] md:min-w-[160px] min-w-[140px] h-10 transition-all duration-500 top-0 bottom-0 my-auto ${translateMapping[activeTab]}`}
     >
       <div className=" min-h-full mx-4 bg-el-bg-hover-color rounded-full"></div>
     </div>

@@ -62,7 +62,7 @@ export default function Footer() {
           <Popover.Button>
             <Info
               className="transition-colors duration-500 ease-in-out group-hover:animate-hop stroke-hc-color group-hover:stroke-hc-color-accent"
-              size={28}
+              size={32}
             />
           </Popover.Button>
           <Transition

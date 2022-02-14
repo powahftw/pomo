@@ -90,7 +90,7 @@ export default function Tasks({ tasks, setTasks }) {
           className="group ml-2"
         >
           <IconToUse
-            size={32}
+            size={36}
             className="group-hover:animate-hop stroke-hc-color group-hover:stroke-hc-color-accent"
           />
         </button>

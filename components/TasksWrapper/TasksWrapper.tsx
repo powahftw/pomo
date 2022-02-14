@@ -28,7 +28,10 @@ export default function TasksWrapper() {
           onDismiss={() => setIsPanelOpen(false)}
           className="fixed top-0 left-0 right-0 bottom-0 bg-black/[0.5]"
         >
-          <DialogContent className="bg-bg-color min-w-full absolute top-0 left-0 bottom-0 will-change-transform animate-slideInFromLeft">
+          <DialogContent
+            aria-label="Tasks Menu"
+            className="bg-bg-color min-w-full md:min-w-[60%] absolute top-0 left-0 bottom-0 will-change-transform animate-slideInFromLeft"
+          >
             <div className="flex justify-end mt-6 mr-6">
               <button
                 type="button"
@@ -36,7 +39,7 @@ export default function TasksWrapper() {
                 onClick={() => setIsPanelOpen(false)}
               >
                 <X
-                  size={24}
+                  size={32}
                   className="group-hover:animate-hop stroke-hc-color group-hover:stroke-hc-color-accent"
                 />
               </button>
@@ -52,7 +55,7 @@ export default function TasksWrapper() {
           onClick={() => setIsPanelOpen(true)}
         >
           <Edit
-            size={24}
+            size={32}
             className="group-hover:animate-hop stroke-hc-color group-hover:stroke-hc-color-accent"
           />
         </button>
