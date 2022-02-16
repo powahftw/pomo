@@ -1,4 +1,4 @@
-import SettingsPicker from '../SettingsPicker';
+import SettingsWrapper from '../SettingsWrapper';
 import TasksWrapper from '../TasksWrapper';
 import ThemePicker from '../ThemePicker';
 
@@ -10,7 +10,7 @@ export default function Navbar() {
       </div>
       <div className="flex flex-row gap-6">
         <div className="group">
-          <SettingsPicker />
+          <SettingsWrapper />
         </div>
         <div className="group">
           <ThemePicker />
