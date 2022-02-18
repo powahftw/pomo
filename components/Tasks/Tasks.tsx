@@ -22,6 +22,15 @@ export default function Tasks({ tasks, setTasks }) {
     }
   };
 
+  const onEscHandleKeyDown = (event: KeyboardEvent<any>) => {
+    if (event.key === 'Escape' && !event.shiftKey && isEditing) {
+      setTaskText('');
+      setIsEditing(false);
+      // Move the focus to the (+) button so the user can quickly add more tasks.
+      buttonRef.current.focus();
+    }
+  };
+
   const handleSubmit = () => {
     if (isEditing) {
       const success = addTask(newTaskText.trim());
@@ -79,7 +88,10 @@ export default function Tasks({ tasks, setTasks }) {
             autoFocus
             placeholder="Add a description"
             value={newTaskText}
-            onKeyDown={(e) => onEnterHandleKeyDown(e, handleSubmit)}
+            onKeyDown={(e) => {
+              onEnterHandleKeyDown(e, handleSubmit);
+              onEscHandleKeyDown(e);
+            }}
             onChange={(e) => setTaskText(e.target.value)}
           />
         )}

@@ -1,5 +1,5 @@
 .circle {
-  stroke-dasharray: calc(260 * 3.14);
+  stroke-dasharray: calc(320 * 3.14); /* Radius of the Circle times π. */
   stroke-linecap: round;
   transition: 1s linear;
 }

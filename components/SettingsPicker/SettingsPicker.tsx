@@ -23,7 +23,7 @@ export default function SettingsPicker() {
     }
   }, [enableNotification]);
 
-  const handleTimerUpdate = (key: string, value: Number) => {
+  const handleTimerUpdate = (key: string, value: number) => {
     dispatch({
       type: ActionType.UPDATE_PREFERENCE,
       newPreferences: {
