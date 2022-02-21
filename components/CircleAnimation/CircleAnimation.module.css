@@ -11,17 +11,3 @@
   left: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
 }
-
-@keyframes pulse {
-  0% {
-    stroke-width: 8px;
-  }
-
-  70% {
-    stroke-width: 12px;
-  }
-
-  100% {
-    stroke-width: 8px;
-  }
-}

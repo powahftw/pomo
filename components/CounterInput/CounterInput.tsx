@@ -6,7 +6,7 @@ export default function CounterInput({
   suffix,
   value = 2,
   minValue = 1,
-  maxValue = 60 * 60,
+  maxValue = 60,
   onValChange,
 }) {
   const PlusMinusButton = ({ text, action }) => {

@@ -1,7 +1,7 @@
 import { Stage } from '../../types/enum';
 import css from './CircleAnimation.module.css';
 
-const MAX_DASHOFFSET = 260 * 3.14;
+const MAX_DASHOFFSET = 320 * 3.14;
 
 export default function CircleAnimation({
   children,
@@ -14,7 +14,7 @@ export default function CircleAnimation({
     currStage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
   return (
-    <div className="lg:w-80 lg:h-80 w-64 h-64 relative">
+    <div className="w-80 h-80 relative">
       <svg className={`${css.svg}`} height="100%" width="100%">
         <circle
           strokeDashoffset={`${progress}px`}

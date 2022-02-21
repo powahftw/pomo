@@ -106,7 +106,7 @@ export default function SettingsPicker() {
         >
           <CounterInput
             label={timerIdsToLabel.get(key)}
-            suffix={'sec'}
+            suffix={'min'}
             value={timerPreference[key]}
             onValChange={(val) => handleTimerUpdate(key, val)}
           />

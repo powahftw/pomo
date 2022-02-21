@@ -100,7 +100,7 @@ export default function TimerSection() {
         <CircleAnimation
           currStage={appState.stage}
           timeLeft={appState.timeLeft}
-          totalTime={appState.timerSettings[appState.stage]}
+          totalTime={appState.timerSettings[appState.stage] * 60}
         >
           <TimerDisplay />
         </CircleAnimation>

@@ -1,7 +1,7 @@
 import { ActionType, Stage, TimerState } from '../types/enum';
 
-const DEFAULT_WORK_TIME = 0.2 * 60;
-const DEFAULT_REST_TIME = 0.1 * 60;
+const DEFAULT_WORK_TIME = 25 * 60;
+const DEFAULT_REST_TIME = 5 * 60;
 
 const DEFAULT_TIMER_STATE = TimerState.STOPPED;
 const DEFAULT_STAGE = Stage.WORK;
@@ -9,7 +9,7 @@ const DEFAULT_STAGE = Stage.WORK;
 export const DEFAULT_STAGE_TO_TIME = {
   [Stage.WORK]: DEFAULT_WORK_TIME,
   [Stage.SHORT_REST]: DEFAULT_REST_TIME,
-  [Stage.LONG_REST]: DEFAULT_REST_TIME * 5,
+  [Stage.LONG_REST]: DEFAULT_REST_TIME * 4,
 };
 
 export const DEFAULT_COMPLETED_STAGES = {
@@ -69,14 +69,14 @@ export function appStateReducer(state: AppState, action: Action) {
       return {
         ...DEFAULT_APP_STATE,
         cycleCompleted: state.cycleCompleted,
-        timeLeft: state.timerSettings[DEFAULT_STAGE],
+        timeLeft: state.timerSettings[DEFAULT_STAGE] * 60,
         timerSettings: state.timerSettings,
       };
     case ActionType.RESTART:
       return {
         ...state,
         timerState: TimerState.PLAYING,
-        timeLeft: state.timerSettings[state.stage],
+        timeLeft: state.timerSettings[state.stage] * 60,
       };
     case ActionType.TICK:
       if (state.timeLeft > 0) {
@@ -96,7 +96,7 @@ export function appStateReducer(state: AppState, action: Action) {
       // If the app is stopped we update the timeLeft right away, otherwise we only do so
       // if the user is trying to reduce the stage time below the current time left then we reduce the time left as well to prevent having
       // timeLeft > newBaseTimer (Which would look odd in the circle).
-      const newBaseTimer = action.newTimerSettings[state.stage];
+      const newBaseTimer = action.newTimerSettings[state.stage] * 60;
       return {
         ...state,
         timeLeft:
@@ -122,7 +122,7 @@ export function appStateReducer(state: AppState, action: Action) {
             ? TimerState.STOPPED
             : TimerState.PAUSED,
         stage: action.transitionTo,
-        timeLeft: state.timerSettings[action.transitionTo],
+        timeLeft: state.timerSettings[action.transitionTo] * 60,
       };
     default:
       throw new Error('Action not implemented');
