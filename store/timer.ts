@@ -1,7 +1,7 @@
 import { ActionType, Stage, TimerState } from '../types/enum';
 
-const DEFAULT_WORK_TIME = 25 * 60;
-const DEFAULT_REST_TIME = 5 * 60;
+const DEFAULT_WORK_TIME = 25;
+const DEFAULT_REST_TIME = 5;
 
 const DEFAULT_TIMER_STATE = TimerState.STOPPED;
 const DEFAULT_STAGE = Stage.WORK;
