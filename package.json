@@ -9,6 +9,7 @@
     "export": "npx next build && npx next export -o docs/ && type NUL > docs/.nojekyll && shx cp docs/index.html docs/404.html"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^0.4.3",
     "@headlessui/react": "^1.4.2",
     "@reach/dialog": "^0.16.2",
     "next": "^12.0.10",
