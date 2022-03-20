@@ -75,9 +75,9 @@ export default function TimerSection() {
     [Stage.LONG_REST, 2],
   ]);
   return (
-    <div className="flex flex-col items-center justify-center grow -mt-16">
-      <main className="font-mono flex flex-col items-center gap-16">
-        <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative px-2 py-4">
+    <div className="flex flex-col items-center justify-center grow">
+      <main className="font-mono flex flex-col items-center lg:gap-16 md:gap-12 gap-8">
+        <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative md:px-2 px-1 py-4">
           <TabButton
             text="Work"
             active={appState.stage === Stage.WORK}
