@@ -1,4 +1,4 @@
-import { Stage } from '../../types/enum';
+import { Stage, TimerState } from '../../types/enum';
 
 import { didTimerRecentlyFinish } from '../../utils/state_utils';
 import usePrevious from '../../hooks/usePrevious';
@@ -42,16 +42,22 @@ export default function TimerDisplay() {
   const currColor =
     appState.stage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
+  const currStageTotTime = appState.timerSettings[appState.stage];
+  const timerNotAtFull = appState.timeLeft < currStageTotTime;
+
   return (
     <div
       className={`transition-colors duration-500 
       w-64 h-64 
-      ${currBgColor} shadow-2xl border-solid border-4 border-light-blue-500  rounded-full grid place-items-center`}
+      ${currBgColor} shadow-2xl border-solid border-4 border-el-bg-hover-color rounded-full grid place-items-center`}
     >
       <span
-        className={`transition-colors duration-700 text-5xl ${currColor} font-mono`}
+        className={`transition-colors duration-700 ${currColor} font-mono flex flex-col items-center`}
       >
-        {secondstoHHMMSS(appState.timeLeft)}
+        <div className="text-5xl">{secondstoHHMMSS(appState.timeLeft)}</div>
+        {timerNotAtFull && (
+          <div className="text-lg">{secondstoHHMMSS(currStageTotTime)}</div>
+        )}
       </span>
     </div>
   );

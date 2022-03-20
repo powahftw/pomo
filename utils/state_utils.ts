@@ -1,5 +1,5 @@
 import { AppState } from '../store/timer';
-import { TimerState } from '../types/enum';
+import { ActionType, TimerState } from '../types/enum';
 
 export const didTimerRecentlyFinish = (
   prevState: AppState | undefined,
@@ -9,3 +9,13 @@ export const didTimerRecentlyFinish = (
   prevState.timerState === TimerState.PLAYING &&
   prevState.timeLeft === 0 &&
   currState.timerState === TimerState.PAUSED;
+
+export const nextActionType = (currState: AppState): ActionType => {
+  if (currState.timerState === TimerState.PLAYING) {
+    return ActionType.PAUSE;
+  } else if (currState.timeLeft == 0) {
+    return ActionType.RESTART;
+  } else {
+    return ActionType.PLAY;
+  }
+};

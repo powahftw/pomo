@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { StopCircle } from 'react-feather';
 import PillButton from '../components/PillButton';
@@ -7,7 +7,6 @@ import { Stage, TimerState, ActionType } from '../types/enum';
 import PauseOrPlayButton from '../components/PauseOrPlayButton';
 import StatsDisplay from '../components/StatsDisplay';
 import CircleAnimation from '../components/CircleAnimation';
-import { LONG_BREAK_EVERY_N_SESSION } from '../store/timer';
 import usePrevious from '../hooks/usePrevious';
 import TabButton from '../components/TabButton';
 import { didTimerRecentlyFinish } from '../utils/state_utils';
@@ -15,6 +14,8 @@ import Navbar from '../components/Navbar';
 import { usePreference } from '../providers/preference-context';
 import WebNotification from '../components/WebNotification';
 import { useAppState } from '../providers/app-state-context';
+import TabGlider from '../components/TabGlider';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const { appState, dispatch } = useAppState();
@@ -24,6 +25,7 @@ export default function Home() {
   const {
     state: {
       'auto-switch': shouldAutoSwitch,
+      'long-pause-every-n-sessions': longPauseEveryNSessions,
       'timer-preference': timerPreference,
     },
   } = usePreference();
@@ -60,7 +62,7 @@ export default function Home() {
   useEffect(() => {
     if (didTimerRecentlyFinish(prevState, appState) && shouldAutoSwitch) {
       const breakState =
-        appState.workCycleCompleted % LONG_BREAK_EVERY_N_SESSION === 0
+        appState.workCycleCompleted % longPauseEveryNSessions === 0
           ? Stage.LONG_REST
           : Stage.SHORT_REST;
       const transitionTo =
@@ -71,6 +73,11 @@ export default function Home() {
   }, [appState.timerState]);
 
   const isPlaying = () => appState.timerState === TimerState.PLAYING;
+  const activeStageMapping = new Map<Stage, number>([
+    [Stage.WORK, 0],
+    [Stage.SHORT_REST, 1],
+    [Stage.LONG_REST, 2],
+  ]);
 
   return (
     <>
@@ -82,10 +89,7 @@ export default function Home() {
         <Navbar />
         <div className="flex flex-col items-center justify-center grow -mt-16">
           <main className="font-mono flex flex-col items-center gap-16">
-            <h1 className="text-4xl text-main-color">
-              A simple Pomodoro timer app.
-            </h1>
-            <div className="flex flex-row rounded-full border-b-4 border-main-color overflow-hidden">
+            <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative px-2 py-4">
               <TabButton
                 text="Work"
                 active={appState.stage === Stage.WORK}
@@ -96,13 +100,14 @@ export default function Home() {
                 active={appState.stage === Stage.SHORT_REST}
                 onClickAction={() => transitionStage(Stage.SHORT_REST)}
               />
-              {LONG_BREAK_EVERY_N_SESSION > 0 && (
+              {longPauseEveryNSessions > 0 && (
                 <TabButton
                   text="Long Pause"
                   active={appState.stage === Stage.LONG_REST}
                   onClickAction={() => transitionStage(Stage.LONG_REST)}
                 />
               )}
+              <TabGlider activeTab={activeStageMapping.get(appState.stage)} />
             </div>
             <CircleAnimation
               currStage={appState.stage}
@@ -126,10 +131,11 @@ export default function Home() {
                 onClickAction={() => dispatch({ type: ActionType.STOP })}
               />
             </div>
-            <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
             <WebNotification />
           </main>
         </div>
+        <Footer />
+        <StatsDisplay sessionCompleted={appState.workCycleCompleted} />
       </div>
     </>
   );
