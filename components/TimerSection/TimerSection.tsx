@@ -77,25 +77,28 @@ export default function TimerSection() {
   return (
     <div className="flex flex-col items-center justify-center grow">
       <main className="font-mono flex flex-col items-center lg:gap-16 md:gap-12 gap-8">
-        <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative md:px-2 px-1 py-4">
-          <TabButton
-            text="Work"
-            active={appState.stage === Stage.WORK}
-            onClickAction={() => transitionStage(Stage.WORK)}
-          />
-          <TabButton
-            text="Short Pause"
-            active={appState.stage === Stage.SHORT_REST}
-            onClickAction={() => transitionStage(Stage.SHORT_REST)}
-          />
-          {longPauseEveryNSessions > 0 && (
+        <div className="flex flex-col align-middle">
+          <h1 className="text-3xl text-el-bg-color mb-4">Pomo - ⏱🍅</h1>
+          <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative md:px-2 px-1 py-4">
             <TabButton
-              text="Long Pause"
-              active={appState.stage === Stage.LONG_REST}
-              onClickAction={() => transitionStage(Stage.LONG_REST)}
+              text="Work"
+              active={appState.stage === Stage.WORK}
+              onClickAction={() => transitionStage(Stage.WORK)}
             />
-          )}
-          <TabGlider activeTab={activeStageMapping.get(appState.stage)} />
+            <TabButton
+              text="Short Pause"
+              active={appState.stage === Stage.SHORT_REST}
+              onClickAction={() => transitionStage(Stage.SHORT_REST)}
+            />
+            {longPauseEveryNSessions > 0 && (
+              <TabButton
+                text="Long Pause"
+                active={appState.stage === Stage.LONG_REST}
+                onClickAction={() => transitionStage(Stage.LONG_REST)}
+              />
+            )}
+            <TabGlider activeTab={activeStageMapping.get(appState.stage)} />
+          </div>
         </div>
         <CircleAnimation
           currStage={appState.stage}
