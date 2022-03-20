@@ -4,12 +4,12 @@
 
 body[data-theme='light'] {
   --bg-color: theme('colors.sky.100');
-  --main-color: theme('colors.blue.500');
-  --main-color-accent: theme('colors.blue.600');
-  --hc-color: theme('colors.zinc.800');
-  --hc-color-accent: theme('colors.zinc.600');
-  --el-bg-color: theme('colors.blue.100');
-  --el-bg-hover-color: theme('colors.blue.200');
+  --main-color: theme('colors.violet.500');
+  --main-color-accent: theme('colors.purple.700');
+  --hc-color: theme('colors.purple.800');
+  --hc-color-accent: theme('colors.purple.900');
+  --el-bg-color: theme('colors.blue.200');
+  --el-bg-hover-color: theme('colors.indigo.300');
 }
 
 body[data-theme='dark'] {

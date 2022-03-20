@@ -15,7 +15,7 @@ export default function TasksWrapper() {
       {/* Desktop-like UI. */}
       <div className="hidden lg:block">
         <div
-          className={`px-4 absolute top-0 bottom-0 left-0 flex flex-col gap-2 z-10 overflow-y-auto ${css.scrollbar} w-72`}
+          className={`px-4 absolute top-0 bottom-0 left-0 flex flex-col gap-2 z-10 overflow-y-auto ${css.scrollbar} w-72 pointer-events-none`}
         >
           <Tasks tasks={tasks} setTasks={setTasks} />
         </div>

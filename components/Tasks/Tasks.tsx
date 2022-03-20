@@ -63,7 +63,7 @@ export default function Tasks({ tasks, setTasks }) {
       {tasks.map((task) => (
         <div
           key={task.id}
-          className="bg-el-bg-hover-color px-4 py-4 flex items-center text-center justify-between shadow-lg rounded-sm min-w-full"
+          className="bg-el-bg-hover-color px-4 py-4 flex items-center text-center justify-between shadow-lg rounded-sm min-w-full pointer-events-auto"
         >
           <span className="overflow-hidden text-ellipsis">{task.content}</span>
           <span className="group flex-shrink-0">
@@ -80,7 +80,7 @@ export default function Tasks({ tasks, setTasks }) {
           </span>
         </div>
       ))}
-      <div className="py-1 flex justify-between transition-colors duration-500 ease-in-out min-w-full">
+      <div className="py-1 flex justify-between transition-colors duration-500 ease-in-out min-w-full pointer-events-auto">
         {isEditing && (
           <input
             className="will-change-transform animate-slideInFromLeft appearance-none border rounded-sm px-4 py-4 shadow-lg text-gray-700 leading-tight focus:outline-none grow focus:shadow-outline"
@@ -107,16 +107,23 @@ export default function Tasks({ tasks, setTasks }) {
           />
         </button>
         {tasks.length == 0 && !isEditing && (
-          <span
-            className="relative bg-blue-200 rounded-lg inline-flex items-center px-2 py-1 ml-3
-                       after:content-[''] after:absolute after:top-0 after:left-0 after:bottom-0 after:w-0 after:h-0
-                       after:-mx-[6px] after:my-auto after:border-r-[6px] after:border-b-[6px] after:border-t-[6px]
-                       after:border-transparent after:border-r-blue-200 mr-auto"
-          >
-            {'Add Task!'}
-          </span>
+          <CalloutWithCaret content={'Add Task!'} />
         )}
       </div>
     </>
   );
 }
+
+const CalloutWithCaret = ({ content }) => {
+  // Simple Callout with left-side-caret.
+  return (
+    <span
+      className="relative rounded-lg inline-flex items-center px-2 py-1 ml-3
+             after:content-[''] after:absolute after:top-0 after:left-0 after:bottom-0 after:w-0 after:h-0
+             after:-mx-[6px] after:my-auto after:border-r-[6px] after:border-b-[6px] after:border-t-[6px]
+             after:border-transparent after:border-r-el-bg-hover-color mr-auto bg-el-bg-hover-color"
+    >
+      {content}
+    </span>
+  );
+};
