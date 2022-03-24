@@ -8,7 +8,12 @@ import { nextActionType } from '../../utils/state_utils';
 export default function Footer() {
   const { appState, dispatch } = useAppState();
 
-  const keyHandler = ({ key }) => {
+  const keyHandler = ({ target, key }) => {
+    // Prevent keyboard shortcuts to work while the user is focusing an input element.
+    // eg: the task input field.
+    if (target.matches('input')) {
+      return;
+    }
     switch (key) {
       case '1': {
         dispatch({ type: ActionType.CHANGE_STAGE, transitionTo: Stage.WORK });
@@ -103,12 +108,12 @@ export default function Footer() {
 const KeyBindingRow = ({ keybindings, label }) => (
   <p>
     {keybindings.map((keybinding, idx) => (
-      <>
+      <span key={keybinding}>
         {idx > 0 && ' / '}
-        <kbd className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.1em] shadow-inner bg-gray-100">
+        <kbd className="inline-block border-[1px] border-solid border-black rounded-[4px] p-[0.2em] shadow-inner bg-gray-100">
           {keybinding}
         </kbd>
-      </>
+      </span>
     ))}
     <label className="ml-4">{label}</label>
   </p>

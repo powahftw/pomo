@@ -1,39 +1,62 @@
 import { ActionType, Stage, TimerState } from '../types/enum';
 
-export type AppState = {
-  timerState: TimerState;
-  timerSettings: typeof DEFAULT_STATE_TO_TIME;
-  stage: Stage;
-  timeLeft: number;
-  workCycleCompleted: number;
-  everStarted: boolean;
-};
-
 const DEFAULT_WORK_TIME = 0.2 * 60;
 const DEFAULT_REST_TIME = 0.1 * 60;
 
 const DEFAULT_TIMER_STATE = TimerState.STOPPED;
 const DEFAULT_STAGE = Stage.WORK;
 
-export const DEFAULT_STATE_TO_TIME = {
+export const DEFAULT_STAGE_TO_TIME = {
   [Stage.WORK]: DEFAULT_WORK_TIME,
   [Stage.SHORT_REST]: DEFAULT_REST_TIME,
   [Stage.LONG_REST]: DEFAULT_REST_TIME * 5,
 };
 
+export const DEFAULT_COMPLETED_STAGES = {
+  [Stage.WORK]: 0,
+  [Stage.SHORT_REST]: 0,
+  [Stage.LONG_REST]: 0,
+};
+
+export type CompletedStageType = typeof DEFAULT_COMPLETED_STAGES;
+
+export type AppState = {
+  timerState: TimerState;
+  timerSettings: typeof DEFAULT_STAGE_TO_TIME;
+  stage: Stage;
+  timeLeft: number;
+  cycleCompleted: CompletedStageType;
+  everStarted: boolean;
+};
+
 export type Action = {
   type: ActionType;
   transitionTo?: Stage;
-  newTimerSettings?: typeof DEFAULT_STATE_TO_TIME;
+  newTimerSettings?: typeof DEFAULT_STAGE_TO_TIME;
 };
 
 export const DEFAULT_APP_STATE = {
   timerState: DEFAULT_TIMER_STATE,
   stage: DEFAULT_STAGE,
-  timerSettings: DEFAULT_STATE_TO_TIME,
-  timeLeft: DEFAULT_STATE_TO_TIME[DEFAULT_STAGE],
-  workCycleCompleted: 0,
+  timerSettings: DEFAULT_STAGE_TO_TIME,
+  timeLeft: DEFAULT_STAGE_TO_TIME[DEFAULT_STAGE],
+  cycleCompleted: DEFAULT_COMPLETED_STAGES,
   everStarted: false,
+};
+
+const increaseCycle = (
+  currCycleCompleted: CompletedStageType,
+  currStage: Stage
+): CompletedStageType => {
+  return {
+    [Stage.WORK]:
+      currCycleCompleted['work'] + (currStage === Stage.WORK ? 1 : 0),
+    [Stage.SHORT_REST]:
+      currCycleCompleted['short-rest'] +
+      (currStage === Stage.SHORT_REST ? 1 : 0),
+    [Stage.LONG_REST]:
+      currCycleCompleted['long-rest'] + (currStage === Stage.LONG_REST ? 1 : 0),
+  };
 };
 
 export function appStateReducer(state: AppState, action: Action) {
@@ -45,7 +68,7 @@ export function appStateReducer(state: AppState, action: Action) {
     case ActionType.STOP:
       return {
         ...DEFAULT_APP_STATE,
-        workCycleCompleted: state.workCycleCompleted,
+        cycleCompleted: state.cycleCompleted,
         timeLeft: state.timerSettings[DEFAULT_STAGE],
         timerSettings: state.timerSettings,
       };
@@ -54,8 +77,6 @@ export function appStateReducer(state: AppState, action: Action) {
         ...state,
         timerState: TimerState.PLAYING,
         timeLeft: state.timerSettings[state.stage],
-        workCycleCompleted:
-          state.workCycleCompleted + (state.stage === Stage.WORK ? 1 : 0),
       };
     case ActionType.TICK:
       if (state.timeLeft > 0) {
@@ -64,8 +85,7 @@ export function appStateReducer(state: AppState, action: Action) {
       return {
         ...state,
         timerState: TimerState.PAUSED,
-        workCycleCompleted:
-          state.workCycleCompleted + (state.stage === Stage.WORK ? 1 : 0),
+        cycleCompleted: increaseCycle(state.cycleCompleted, state.stage),
       };
     case ActionType.CHANGE_TIMER_SETTINGS:
       if (action.newTimerSettings == null) {
