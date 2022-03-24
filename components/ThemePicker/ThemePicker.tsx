@@ -31,9 +31,9 @@ export default function ThemePicker() {
   return (
     <button type="button" onClick={changeTheme}>
       {isCurrThemeLight ? (
-        <Moon className={colorClasses} size={28} />
+        <Moon className={colorClasses} size={32} />
       ) : (
-        <Sun className={colorClasses} size={28} />
+        <Sun className={colorClasses} size={32} />
       )}
     </button>
   );

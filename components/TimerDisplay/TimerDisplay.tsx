@@ -42,13 +42,13 @@ export default function TimerDisplay() {
   const currColor =
     appState.stage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
 
-  const currStageTotTime = appState.timerSettings[appState.stage];
+  const currStageTotTime = appState.timerSettings[appState.stage] * 60;
   const timerNotAtFull = appState.timeLeft < currStageTotTime;
 
   return (
     <div
       className={`transition-colors duration-500 
-      w-64 h-64 
+      lg:w-80 w-60 lg:h-80 h-60 
       ${currBgColor} shadow-2xl border-solid border-4 border-el-bg-hover-color rounded-full grid place-items-center`}
     >
       <span

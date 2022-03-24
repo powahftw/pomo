@@ -28,10 +28,15 @@ module.exports = {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(0)' },
         },
+        slideInFromRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
       },
       animation: {
         hop: 'hop 1s ease-in-out infinite',
         slideInFromLeft: 'slideInFromLeft 0.3s ease-out both',
+        slideInFromRight: 'slideInFromRight 0.3s ease-out both',
       },
     },
   },
