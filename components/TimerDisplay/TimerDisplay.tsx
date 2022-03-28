@@ -38,9 +38,10 @@ export default function TimerDisplay() {
   };
 
   const currBgColor =
-    appState.stage === Stage.WORK ? 'bg-el-bg-color' : 'bg-emerald-100';
+    appState.stage === Stage.WORK ? 'bg-el-bg-color' : 'bg-pause-timer-color';
   const currColor =
-    appState.stage === Stage.WORK ? 'text-main-color' : 'text-emerald-500';
+    appState.stage === Stage.WORK ? 'text-main-color' : 'text-pause-text-timer-color';
+    const currBorderColor = appState.stage === Stage.WORK ? "border-el-bg-hover-color" : "border-pause-timer-color-accent"
 
   const currStageTotTime = appState.timerSettings[appState.stage] * 60;
   const timerNotAtFull = appState.timeLeft < currStageTotTime;
@@ -49,7 +50,7 @@ export default function TimerDisplay() {
     <div
       className={`transition-colors duration-500 
       lg:w-80 w-60 lg:h-80 h-60 
-      ${currBgColor} shadow-2xl border-solid border-4 border-el-bg-hover-color rounded-full grid place-items-center`}
+      ${currBgColor} shadow-2xl border-solid border-4 ${currBorderColor} rounded-full grid place-items-center`}
     >
       <span
         className={`transition-colors duration-700 ${currColor} font-mono flex flex-col items-center`}

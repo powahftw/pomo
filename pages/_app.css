@@ -3,13 +3,16 @@
 @tailwind utilities;
 
 body[data-theme='light'] {
-  --bg-color: theme('colors.sky.100');
-  --main-color: theme('colors.violet.500');
-  --main-color-accent: theme('colors.purple.700');
-  --hc-color: theme('colors.purple.800');
-  --hc-color-accent: theme('colors.purple.900');
-  --el-bg-color: theme('colors.blue.200');
-  --el-bg-hover-color: theme('colors.indigo.300');
+  --bg-color: #C8D1D9;
+  --main-color: #30363C;
+  --main-color-accent: #30363C;
+  --hc-color: #30363C;
+  --hc-color-accent: #30363C;
+  --el-bg-color:#87C0D0;
+  --el-bg-hover-color: #7bb1c0;
+  --pause-timer-color: #97AF8B;
+  --pause-timer-color-accent: #819676;
+  --pause-text-timer-color: #30382c;
 }
 
 body[data-theme='dark'] {
@@ -20,7 +23,11 @@ body[data-theme='dark'] {
   --hc-color-accent: theme('colors.orange.200');
   --el-bg-color: theme('colors.orange.100');
   --el-bg-hover-color: theme('colors.orange.200');
+  --pause-timer-color: theme('colors.emerald.200');
+  --pause-timer-color-accent: theme('colors.emerald.400');
+  --pause-text-timer-color: theme('colors.emerald.800');
 }
+
 
 /* JWC CSS Reset. */
 *,

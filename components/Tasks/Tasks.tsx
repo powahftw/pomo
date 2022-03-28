@@ -118,10 +118,10 @@ const CalloutWithCaret = ({ content }) => {
   // Simple Callout with left-side-caret.
   return (
     <span
-      className="relative rounded-lg inline-flex items-center px-2 py-1 ml-3
+      className="relative rounded-lg inline-flex items-center px-2 py-1 ml-3 my-1
              after:content-[''] after:absolute after:top-0 after:left-0 after:bottom-0 after:w-0 after:h-0
              after:-mx-[6px] after:my-auto after:border-r-[6px] after:border-b-[6px] after:border-t-[6px]
-             after:border-transparent after:border-r-el-bg-hover-color mr-auto bg-el-bg-hover-color"
+             after:border-transparent after:border-r-el-bg-hover-color mr-auto bg-el-bg-hover-color animate-bounce"
     >
       {content}
     </span>

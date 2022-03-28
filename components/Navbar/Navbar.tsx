@@ -4,7 +4,7 @@ import ThemePicker from '../ThemePicker';
 
 export default function Navbar() {
   return (
-    <div className="z-20 flex flex-row self-stretch justify-between pt-6 px-6">
+    <div className="z-20 flex flex-row self-stretch justify-between pt-6 px-6 my-1">
       <div>
         <TasksWrapper />
       </div>

@@ -28,6 +28,7 @@ export default function PauseOrPlayButton({
       text={text}
       onClickAction={action}
       icon={<IconToUse strokeWidth={1.5} size={24} />}
+      className="w-40"
     />
   );
 }

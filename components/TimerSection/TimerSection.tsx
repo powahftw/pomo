@@ -108,16 +108,17 @@ export default function TimerSection() {
           <TimerDisplay />
         </CircleAnimation>
         <div className="flex flex-row gap-8">
-          <PauseOrPlayButton
-            isPlaying={isPlaying()}
-            isTimeOver={appState.timeLeft == 0}
-            wasActiveBefore={appState.everStarted}
-            onPlayAction={() => dispatch({ type: ActionType.PLAY })}
-            onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
-            onRestartAction={() => dispatch({ type: ActionType.RESTART })}
-          />
+            <PauseOrPlayButton
+              isPlaying={isPlaying()}
+              isTimeOver={appState.timeLeft == 0}
+              wasActiveBefore={appState.everStarted}
+              onPlayAction={() => dispatch({ type: ActionType.PLAY })}
+              onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
+              onRestartAction={() => dispatch({ type: ActionType.RESTART })}
+            />
           <PillButton
             text="Stop"
+            className="w-40"
             icon={<StopCircle strokeWidth={1.5} size={24} />}
             onClickAction={() => dispatch({ type: ActionType.STOP })}
           />

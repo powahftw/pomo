@@ -18,6 +18,9 @@ module.exports = {
         'hc-color-accent': 'var(--hc-color-accent)',
         'el-bg-color': 'var(--el-bg-color)',
         'el-bg-hover-color': 'var(--el-bg-hover-color)',
+        'pause-timer-color': 'var(--pause-timer-color)',
+        'pause-timer-color-accent': 'var(--pause-timer-color-accent)',
+        'pause-text-timer-color': 'var(--pause-text-timer-color)',
       },
       keyframes: {
         hop: {
