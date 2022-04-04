@@ -1,17 +1,17 @@
-import { ActionType, Stage, TimerState } from "../../types/enum";
+import { ActionType, Stage, TimerState } from '../../types/enum';
 
-import { didTimerRecentlyFinish } from "../../utils/state_utils";
-import usePrevious from "../../hooks/usePrevious";
-import { useEffect, useRef } from "react";
-import { usePreference } from "../../providers/preference-context";
-import { useAppState } from "../../providers/app-state-context";
-import TabButton from "../TabButton";
-import TabGlider from "../TabGlider";
-import CircleAnimation from "../CircleAnimation";
-import TimerDisplay from "../TimerDisplay";
-import PauseOrPlayButton from "../PauseOrPlayButton";
-import PillButton from "../PillButton";
-import { StopCircle } from "react-feather";
+import { didTimerRecentlyFinish } from '../../utils/state_utils';
+import usePrevious from '../../hooks/usePrevious';
+import { useEffect, useRef } from 'react';
+import { usePreference } from '../../providers/preference-context';
+import { useAppState } from '../../providers/app-state-context';
+import TabButton from '../TabButton';
+import TabGlider from '../TabGlider';
+import CircleAnimation from '../CircleAnimation';
+import TimerDisplay from '../TimerDisplay';
+import PauseOrPlayButton from '../PauseOrPlayButton';
+import PillButton from '../PillButton';
+import { StopCircle } from 'react-feather';
 
 export default function TimerSection() {
   const { appState, dispatch } = useAppState();
@@ -20,9 +20,9 @@ export default function TimerSection() {
 
   const {
     state: {
-      "auto-switch": shouldAutoSwitch,
-      "long-pause-every-n-sessions": longPauseEveryNSessions,
-      "timer-preference": timerPreference,
+      'auto-switch': shouldAutoSwitch,
+      'long-pause-every-n-sessions': longPauseEveryNSessions,
+      'timer-preference': timerPreference,
     },
   } = usePreference();
 
@@ -47,9 +47,9 @@ export default function TimerSection() {
     dispatch({
       type: ActionType.CHANGE_TIMER_SETTINGS,
       newTimerSettings: {
-        [Stage.WORK]: timerPreference["work"],
-        [Stage.LONG_REST]: timerPreference["long-rest"],
-        [Stage.SHORT_REST]: timerPreference["short-rest"],
+        [Stage.WORK]: timerPreference['work'],
+        [Stage.LONG_REST]: timerPreference['long-rest'],
+        [Stage.SHORT_REST]: timerPreference['short-rest'],
       },
     });
   }, [timerPreference]);
@@ -107,8 +107,8 @@ export default function TimerSection() {
         >
           <TimerDisplay />
         </CircleAnimation>
-        <div className="flex flex-row gap-8">
-          <div className="w-40">
+        
+          <div className="w-80 grid grid-cols-2 gap-8">
             <PauseOrPlayButton
               isPlaying={isPlaying()}
               isTimeOver={appState.timeLeft == 0}
@@ -117,15 +117,12 @@ export default function TimerSection() {
               onPauseAction={() => dispatch({ type: ActionType.PAUSE })}
               onRestartAction={() => dispatch({ type: ActionType.RESTART })}
             />
-          </div>
-          <div className="w-40">
             <PillButton
               text="Stop"
               icon={<StopCircle strokeWidth={1.5} size={24} />}
               onClickAction={() => dispatch({ type: ActionType.STOP })}
             />
           </div>
-        </div>
       </main>
     </div>
   );
