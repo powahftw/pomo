@@ -2,30 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-body[data-theme="light"] {
-  --bg-color: theme("colors.cyan.50");
-  --main-color: theme("colors.cyan.700");
-  --main-color-accent: theme("colors.cyan.900");
-  --hc-color: theme("colors.cyan.800");
-  --hc-color-accent: theme("colors.teal.900");
-  --el-bg-color: theme("colors.cyan.200");
-  --el-bg-hover-color: theme("colors.cyan.300");
-  --pause-timer-color: theme("colors.teal.300");
-  --pause-timer-color-accent: theme("colors.teal.500");
-  --pause-text-timer-color: theme("colors.teal.900");
+body[data-theme='light'] {
+  --bg-color: theme('colors.cyan.50');
+  --main-color: theme('colors.cyan.700');
+  --main-color-accent: theme('colors.cyan.900');
+  --hc-color: theme('colors.cyan.800');
+  --hc-color-accent: theme('colors.teal.900');
+  --el-bg-color: theme('colors.cyan.200');
+  --el-bg-hover-color: theme('colors.cyan.300');
+  --pause-timer-color: theme('colors.teal.300');
+  --pause-timer-color-accent: theme('colors.teal.500');
+  --pause-text-timer-color: theme('colors.teal.900');
 }
 
-body[data-theme="dark"] {
-  --bg-color: theme("colors.zinc.800");
-  --main-color: theme("colors.amber.600");
-  --main-color-accent: theme("colors.amber.700");
-  --hc-color: theme("colors.zinc.100");
-  --hc-color-accent: theme("colors.orange.200");
-  --el-bg-color: theme("colors.orange.100");
-  --el-bg-hover-color: theme("colors.orange.200");
-  --pause-timer-color: theme("colors.emerald.200");
-  --pause-timer-color-accent: theme("colors.emerald.400");
-  --pause-text-timer-color: theme("colors.emerald.800");
+body[data-theme='dark'] {
+  --bg-color: theme('colors.zinc.800');
+  --main-color: theme('colors.amber.600');
+  --main-color-accent: theme('colors.amber.700');
+  --hc-color: theme('colors.zinc.100');
+  --hc-color-accent: theme('colors.orange.200');
+  --el-bg-color: theme('colors.orange.100');
+  --el-bg-hover-color: theme('colors.orange.200');
+  --pause-timer-color: theme('colors.emerald.200');
+  --pause-timer-color-accent: theme('colors.emerald.400');
+  --pause-text-timer-color: theme('colors.emerald.800');
 }
 
 /* JWC CSS Reset. */
