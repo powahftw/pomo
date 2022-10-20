@@ -78,7 +78,7 @@ export default function TimerSection() {
     <div className="flex flex-col items-center justify-center grow">
       <main className="font-mono flex flex-col items-center lg:gap-16 md:gap-12 gap-8">
         <div className="flex flex-col align-middle">
-          <h1 className="text-3xl text-hc-color mb-4">Pomo - ⏱🍅</h1>
+          <h1 className="text-3xl text-hc-color mb-4 text-center">Pomo - ⏱🍅</h1>
           <div className="bg-el-bg-color flex flex-row rounded-full border-b-4 border-main-color overflow-hidden relative md:px-2 px-1 py-4">
             <TabButton
               text="Work"
